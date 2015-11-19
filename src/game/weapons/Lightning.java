@@ -103,4 +103,9 @@ public class Lightning extends Weapon {
 		return ((float)Math.pow((Math.pow(unit.getY() + unit.getHalfHeight() - hitList.get(hitList.size() - 1).getY(), 2) + Math.pow(unit.getX() + unit.getHalfWidth() - hitList.get(hitList.size() - 1).getX(), 2)),.5f) <= arcRange);
 		
 	}
+
+	@Override
+	public double getFiringAngle() {
+		return 0;
+	}
 }

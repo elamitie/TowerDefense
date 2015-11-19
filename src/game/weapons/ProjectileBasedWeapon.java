@@ -105,6 +105,14 @@ public class ProjectileBasedWeapon extends Weapon {
 	public void draw(Graphics2D g2d) {
 	}
 	
+	@Override
+	public double getFiringAngle() {
+		if (!projectiles.isEmpty())
+			return projectiles.get(0).angle;
+		else
+			return 0;
+	}
+	
 	private void explode(Projectile p){			
 		for(Unit unit : Game.instance().getUnitManager().getUnitList()) {
 			if(p.distanceToUnit(unit) <= aoe) {

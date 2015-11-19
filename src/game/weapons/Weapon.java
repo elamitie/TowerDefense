@@ -24,6 +24,7 @@ public abstract class Weapon {
 	public abstract void fire(Unit unit);	
 	public abstract void update(long gametime);
 	public abstract void draw(Graphics2D g2d);
+	public abstract double getFiringAngle();
 
 	public int getRateOfFire() {
 		return rateOfFire;
