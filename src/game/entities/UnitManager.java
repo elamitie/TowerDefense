@@ -13,11 +13,13 @@ public class UnitManager {
 	private List<Waypoint> waypoints;
 	private Waypoint flyingWaypoint;
 	private Sound mExitNoise;
+	private Sound mDeathNoise;
 	
 	public UnitManager(){
 		createWaypoints();
 		setUnitList(new ArrayList<Unit>());
 		mExitNoise = new Sound("music/yoink.wav");
+		mDeathNoise = new Sound("music/beastDead.wav");
 	}
 
 	public List<Unit> getUnitList() {
@@ -53,11 +55,11 @@ public class UnitManager {
 		for(int i = unitList.size(); i > 0; i--){
 			//Unit dead
 			if(unitList.get(i - 1).getmCurrentHealth() <= 0){
+				mDeathNoise.playSound();
 				unitList.remove(i - 1);
 			}
-			
 			//Unit reached end
-			if(unitList.get(i - 1).getCurrentWaypoint() == null){
+			else if(unitList.get(i - 1).getCurrentWaypoint() == null){
 				unitList.remove(i - 1);
 				mExitNoise.playSound();
 			}

@@ -12,7 +12,7 @@ import game.graphics.Canvas;
 import game.levelSystems.LevelLayout;
 import game.utilities.JSONReader;
 import game.utilities.Sound;
-import game.weapons.Water;
+import game.weapons.Lightning;
 
 @SuppressWarnings("serial")
 public class Game extends Canvas
@@ -102,7 +102,7 @@ public class Game extends Canvas
 		  
 		  mScroller = new WaveScroller();
 		  
-		  mTowerManager.add(new Tower(197, 260, 50, 5, mFileReader.readTowerInfo("water"), new Water()), "up");
+		  mTowerManager.add(new Tower(197, 260, 50, 5, mFileReader.readTowerInfo("lightning"), new Lightning()), "up");
 	}    
 	  
 	  
