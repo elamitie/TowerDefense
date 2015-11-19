@@ -103,7 +103,6 @@ public class Game extends Canvas
 		  mScroller = new WaveScroller();
 		  
 		  mTowerManager.add(new Tower(197, 260, 50, 5, mFileReader.readTowerInfo("cone"), new PineCone()), "right");
-		  //mTowerManager.add(new Tower(197, 200, 50, 5, mFileReader.readTowerInfo("water"), new Water()), "up");
 	}    
 	  
 	  
