@@ -27,7 +27,7 @@ public class Lightning extends Weapon {
 		this.setAttackRadius(200);
 		this.setRateOfFire(10);
 		
-		damage = 50;
+		damage = 15;
 		lightningTimer = 0;
 	}
 
@@ -66,6 +66,8 @@ public class Lightning extends Weapon {
 	@Override
 	public void draw(Graphics2D g2d) {
 		
+		validateHitList();
+		
 		Stroke prevStroke = g2d.getStroke();
 		Color prevColor = g2d.getColor();
 		
@@ -95,6 +97,15 @@ public class Lightning extends Weapon {
 		
 		g2d.setStroke(prevStroke);
 		g2d.setColor(prevColor);		
+	}
+	
+	
+	private void validateHitList(){
+		for(int i = hitList.size(); i > 0; i--){
+			if(!Game.instance().getUnitManager().getUnitList().contains(hitList.get(i - 1))){
+				hitList.remove(i - 1);
+			}
+		}
 	}
 	
 	//Checks range from last arc to new arc

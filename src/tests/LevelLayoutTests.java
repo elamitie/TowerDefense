@@ -58,4 +58,11 @@ public class LevelLayoutTests
 		assertSame(layout.getLayer(0), layer);
 	}
 	
+	@Test
+	public void testLevelLayout()
+	{
+		//grabbing an invalid layer
+		assertNull(layout.getLayer(-1));
+	}
+	
 }
