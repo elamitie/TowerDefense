@@ -1,10 +1,7 @@
-Remember to comment your code! It will make it easier for the next person to understand.
+Third Iteration:
 
-I would recommend having the filepaths as variables so that you minimize the chance of typing it wrong and causing errors.
+You should try to add more comments to your code. It would really make the code more readable.
 
-Try to clean up your try catches to be more organized/easy to read.
+There is some kind of error popping up although I can't figure out how to recreate it.
 
-Iteration Two:
-1. It looks like your createWaypoints() in UnitManager has a lot of hardcoding in it. See if there's a cleaner way to set up the waypoints.
-2. Make sure to get rid of commented out code that you're not using anymore.
-3. You have some good comments in your code. Just try to make sure that it's done consistantly throughout.
+Your lightning looks really good.
