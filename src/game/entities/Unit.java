@@ -40,7 +40,6 @@ public class Unit
 		mMaxHealth = 100;
 		mCurrentHealth = mMaxHealth;
 		
-		applySlow(1.0f, 3000);
 	}
 	
 	public void setAnimation(String direction)
@@ -195,18 +194,22 @@ public class Unit
 		return mMaxHealth;
 	}
 
-	public void setmHaxHealth(int mHaxHealth) {
-		this.mMaxHealth = mHaxHealth;
+	public void setmMaxHealth(int maxHealth) {
+		this.mMaxHealth = maxHealth;
 	}
 
 	public int getmCurrentHealth() {
 		return mCurrentHealth;
 	}
 
-	public void setmCurrentHealth(int mCurrentHealth) {
-		this.mCurrentHealth = mCurrentHealth;
+	public void setmCurrentHealth(int currentHealth) {
+		this.mCurrentHealth = currentHealth;
 	}
 
+	public void inflictDamage(int damage){
+		mCurrentHealth -= damage;
+	}
+	
 	public Waypoint getCurrentWaypoint() {
 		return mCurrentWaypoint;
 	}
@@ -225,4 +228,13 @@ public class Unit
 	public void setCanFly(boolean mCanFly) {
 		this.mCanFly = mCanFly;
 	}
+	
+	public int getHalfWidth(){
+		return (int)(mCurrentAnimation.getCurrentFrame().getWidth()/2);
+	}
+	
+	public int getHalfHeight(){
+		return (int)(mCurrentAnimation.getCurrentFrame().getHeight()/2);
+	}
+	
 }
