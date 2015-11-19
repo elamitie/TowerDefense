@@ -65,7 +65,7 @@ public class UnitManager {
 	}
 	
 	public void draw(Graphics2D g2d){
-		for(Unit unit : unitList){
+		for(Unit unit : unitList) {
 			unit.draw(g2d);
 		}
 	}

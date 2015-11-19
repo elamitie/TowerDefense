@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import game.entities.Tower;
+import game.entities.TowerManager;
 import game.entities.Unit;
 import game.entities.UnitManager;
 import game.entities.WaveScroller;
@@ -12,13 +13,9 @@ import game.levelSystems.LevelLayout;
 import game.utilities.JSONReader;
 import game.utilities.Sound;
 
+@SuppressWarnings("serial")
 public class Game extends Canvas
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private JSONReader mFileReader;
 	private Sound mBackgroundSound;
 	private ArrayList<LevelLayout> mLevels;
@@ -41,7 +38,7 @@ public class Game extends Canvas
 	
 	private WaveScroller mScroller;
 	private UnitManager mUnitManager;
-	private Tower mTower;
+	private TowerManager mTowerManager;
 	
 	private Boolean mIsRunning;
 	
@@ -66,8 +63,8 @@ public class Game extends Canvas
 	private void init()
 	{	  
 		mFileReader = new JSONReader();
-		
 		mUnitManager = new UnitManager();
+		mTowerManager = new TowerManager();
 		
 		mBackgroundSound = new Sound("music/music.wav");
 		mBackgroundSound.startMusic();
@@ -95,7 +92,8 @@ public class Game extends Canvas
 		  
 		  mScroller = new WaveScroller();
 		  
-		  mTower = new Tower(80, 80, 50, 5, mFileReader.readTowerInfo("kernel"));
+		  mTowerManager.add(new Tower(197, 260, 50, 5, mFileReader.readTowerInfo("kernel")), "right");
+		  mTowerManager.add(new Tower(197, 200, 50, 5, mFileReader.readTowerInfo("kernel")), "up");
 	}    
 	  
 	  
@@ -103,7 +101,7 @@ public class Game extends Canvas
 	{
 	      mUnitManager.update(gameTime);
 	      mScroller.updateSpawner(gameTime, mWave);
-	      mTower.update(gameTime);
+	      mTowerManager.update(gameTime);
 	      
 	      if(!isSpawning)
 	      {
@@ -188,9 +186,9 @@ public class Game extends Canvas
 	public void draw(Graphics2D g2d) 
 	{
 		mLevels.get(0).draw(g2d);
+		mTowerManager.draw(g2d);
 		mUnitManager.draw(g2d);
 		mScroller.draw(g2d);
-		mTower.draw(g2d);
 	}
 	
 	public void gameLoop()

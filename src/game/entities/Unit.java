@@ -2,7 +2,6 @@ package game.entities;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import game.graphics.Animation;
