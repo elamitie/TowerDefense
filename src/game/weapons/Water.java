@@ -21,7 +21,7 @@ public class Water extends Weapon {
 		this.setRateOfFire(6);
 		
 		damage = 20;
-		projectileRadius = 4;
+		projectileRadius = 6;
 	}
 
 	@Override

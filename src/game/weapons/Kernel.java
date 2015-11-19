@@ -18,15 +18,16 @@ public class Kernel extends Weapon {
 		this.setAttackRadius(200);
 		this.setRateOfFire(2);
 		
-		damage = 20;
+		damage = 10;
 		projectileRadius = 4;
 	}
 
 	@Override
 	public void fire(Unit unit) {
 		Projectile p = new Projectile(parent.getX() + parent.getHalfWidth(), parent.getY() + parent.getHalfHeight(), 50);
-		p.targetX = unit.getX();
-		p.targetY = unit.getY();
+		p.targetX = unit.getX() + unit.getHalfWidth();
+		p.targetY = unit.getY() + unit.getHalfHeight();
+		p.setTarget(unit);
 		
 		p.angle = Math.atan2(p.targetY - p.y, p.targetX - p.x);
 		Math.toDegrees(p.angle);
@@ -37,6 +38,10 @@ public class Kernel extends Weapon {
 	public void update(long gameTime) {
 		for (int i = projectiles.size(); i > 0; i--) {
 			Projectile p = projectiles.get(i - 1);
+			
+			p.targetX = p.getTarget().getX() + p.getTarget().getHalfWidth();
+			p.targetY = p.getTarget().getY() + p.getTarget().getHalfHeight();
+			p.angle = Math.atan2(p.targetY - p.y, p.targetX - p.x);
 			
 			boolean lessThanRadiusX = p.x < (parent.getX() + parent.getHalfWidth()) - getAttackRadius();
 			boolean greaterThanRadiusX = p.x > (parent.getX() + parent.getHalfWidth()) + getAttackRadius();
@@ -54,6 +59,14 @@ public class Kernel extends Weapon {
 			else {
 				p.x += velX;
 				p.y += velY;
+				
+				//Hits unit
+				if(p.distanceToTarget() <= 10){
+					if (projectiles.contains(p)) {
+						projectiles.remove(p);
+						p.getTarget().inflictDamage(damage);
+					}
+				}
 			}
 		}
 	}
