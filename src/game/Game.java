@@ -3,6 +3,7 @@ package game;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import game.entities.Tower;
 import game.entities.Unit;
 import game.entities.UnitManager;
 import game.entities.WaveScroller;
@@ -40,6 +41,7 @@ public class Game extends Canvas
 	
 	private WaveScroller mScroller;
 	private UnitManager mUnitManager;
+	private Tower mTower;
 	
 	private Boolean mIsRunning;
 	
@@ -92,6 +94,8 @@ public class Game extends Canvas
 		  mLevels = mFileReader.readLevelInfo();
 		  
 		  mScroller = new WaveScroller();
+		  
+		  mTower = new Tower(80, 80, 50, 5, mFileReader.readTowerInfo("kernel"));
 	}    
 	  
 	  
@@ -99,6 +103,7 @@ public class Game extends Canvas
 	{
 	      mUnitManager.update(gameTime);
 	      mScroller.updateSpawner(gameTime, mWave);
+	      mTower.update(gameTime);
 	      
 	      if(!isSpawning)
 	      {
@@ -185,6 +190,7 @@ public class Game extends Canvas
 		mLevels.get(0).draw(g2d);
 		mUnitManager.draw(g2d);
 		mScroller.draw(g2d);
+		mTower.draw(g2d);
 	}
 	
 	public void gameLoop()

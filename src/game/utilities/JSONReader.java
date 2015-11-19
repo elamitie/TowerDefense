@@ -1,28 +1,33 @@
 package game.utilities;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
-import com.google.gson.*;
-
-import game.graphics.*;
+import game.graphics.Animation;
 import game.levelSystems.Layer;
 import game.levelSystems.LevelLayout;
 
 public class JSONReader
 {	
 	private BufferedImage mMonstersSpriteSheet;
+	private BufferedImage towerSpriteSheet;
+	private JsonObject towerFileInfo;
 	private JsonObject mMonstersFileInfo;
 	private JsonObject mTileFileInfo;
 	private HashMap<String, BufferedImage> mSpriteSheets;
 	HashMap<Integer, BufferedImage> mTileSet;
-	
+
 	public JSONReader()
 	{
 		mSpriteSheets = new HashMap<String, BufferedImage>();
@@ -31,72 +36,75 @@ public class JSONReader
 	
 	public void loadFiles()
 	{
-		try 
-		{
+		try {
+			towerSpriteSheet = ImageIO.read(new File("images/towers.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
 			mMonstersSpriteSheet = ImageIO.read(new File("images/monsters.png"));
 		} 
-		catch (IOException e) 
-		{
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		try 
-		{
+		try {
 			mSpriteSheets.put("tiles-grass.png", ImageIO.read(new File("images/tiles-grass.png")));
 		} 
-		catch (IOException e) 
-		{
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		try 
-		{
+		try {
 			mSpriteSheets.put("tiles-shrooms.png", ImageIO.read(new File("images/tiles-shrooms.png")));
 		}
-		catch (IOException e)
-		{
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		try
-		{
+		try {
 			mSpriteSheets.put("tiles-tree.png", ImageIO.read(new File("images/tiles-tree.png")));
 		} 
-		catch (IOException e)
-		{
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		String jsonString = "";
+		String json = "";
+		
+		try {
+			Scanner scanner = new Scanner(new File("images/towers.json"));
+			json = scanner.useDelimiter("\\Z").next();
+			scanner.close();
+		} catch (IOException e) {
+			System.out.println("File not found");
+		}
+		towerFileInfo = new JsonParser().parse(json).getAsJsonObject();
 		
 		try 
 		{
 			Scanner scanner = new Scanner(new File("images/monsters.json"));
-			jsonString = scanner.useDelimiter("\\Z").next();
+			json = scanner.useDelimiter("\\Z").next();
 			scanner.close();
 		}
 		catch (IOException e)
 		{
 			System.out.println("File not found");
 		}
-		
-		
-		mMonstersFileInfo = new JsonParser().parse(jsonString).getAsJsonObject();
+		mMonstersFileInfo = new JsonParser().parse(json).getAsJsonObject();		
 		
 		try 
 		{
 			Scanner scanner = new Scanner(new File("images/tilemap.json"));
-			jsonString = scanner.useDelimiter("\\Z").next();
+			json = scanner.useDelimiter("\\Z").next();
 			scanner.close();
 		}
 		catch (IOException e)
 		{
 			System.out.println("File not found");
 		}
-		
-		
-		mTileFileInfo = new JsonParser().parse(jsonString).getAsJsonObject();
-		
+		mTileFileInfo = new JsonParser().parse(json).getAsJsonObject();
+				
 		loadTiles();
 	}
 	
@@ -144,6 +152,44 @@ public class JSONReader
 		return animations;
 	}
 	
+	public ArrayList<Animation> readTowerInfo(String type) {
+		
+		JsonElement frames = towerFileInfo.get("frames");
+		JsonObject framesObject = frames.getAsJsonObject();
+		
+		String[] baseStrings = { type + "-down", type + "-left", type + "-right", type + "-up", type + "-dl", type + "-dr", type + "-ur", type + "-ul" };
+		
+		String frameName = "";
+		
+		ArrayList<Animation> animations = new ArrayList<Animation>();
+		
+		BufferedImage base = this.parseAnimationFrame(framesObject, "base.png", "frame", towerSpriteSheet);
+		
+		for (int i = 0; i < baseStrings.length; ++i) {
+			frameName = baseStrings[i] + ".png";
+			ArrayList<BufferedImage> framesList = new ArrayList<BufferedImage>();
+			
+			if (framesObject.has(frameName)) {
+				// Here we draw the actual tower type onto the base image into one image
+				BufferedImage tower = this.parseAnimationFrame(framesObject, frameName, "frame", towerSpriteSheet);
+				int w = Math.max(base.getWidth(), tower.getWidth());
+				int h = Math.max(base.getHeight(), tower.getHeight());
+				BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+				
+				Graphics g = combined.getGraphics();
+				g.drawImage(base, 0, 0, null);
+				int halfWidth = (base.getWidth() / 2) - (tower.getWidth() / 2);
+				int halfHeight = (base.getHeight() / 2) - (tower.getHeight() / 2);
+				g.drawImage(tower, halfWidth, halfHeight, null);
+				
+				framesList.add(combined);
+			}
+			
+			animations.add(new Animation(framesList));
+		}
+		
+		return animations;
+	}
 	
 	private void loadTiles()
 	{		
@@ -231,5 +277,16 @@ public class JSONReader
 		return levels;
 	}
 	
+	private BufferedImage parseAnimationFrame(JsonObject framesObject, String frameName, String jsonElement, BufferedImage spriteSheet) {
+		JsonElement baseElem = framesObject.get(frameName);
+		JsonObject baseObj = baseElem.getAsJsonObject();
+		JsonObject baseFrameInfo = baseObj.get(jsonElement).getAsJsonObject();
+		int x = baseFrameInfo.get("x").getAsInt();
+		int y = baseFrameInfo.get("y").getAsInt();
+		int width = baseFrameInfo.get("w").getAsInt();
+		int height = baseFrameInfo.get("h").getAsInt();
+		BufferedImage image = spriteSheet.getSubimage(x, y, width, height);
+		return image;
+	}
 	
 }
