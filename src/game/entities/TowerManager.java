@@ -37,6 +37,11 @@ public class TowerManager {
 		return t;
 	}
 	
+	public Tower remove(Tower tower){
+		towers.remove(tower);
+		return tower;
+	}
+	
 	public Tower get(int i) {
 		return towers.get(i);
 	}

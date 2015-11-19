@@ -12,7 +12,7 @@ public class Walnut extends ProjectileBasedWeapon {
 		this.setAttackRadius(200);
 		this.setRateOfFire(5);
 		this.setDamage(30);
-		this.setProjectileRadius(6);
+		this.setProjectileRadius(9);
 	}
 
 	@Override

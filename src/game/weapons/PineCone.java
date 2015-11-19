@@ -12,7 +12,7 @@ public class PineCone extends ProjectileBasedWeapon {
 		this.setAttackRadius(200);
 		this.setRateOfFire(8);
 		this.setDamage(40);
-		this.setProjectileRadius(9);
+		this.setProjectileRadius(13);
 		this.setAoe(100);
 		this.setSpeed(25);
 	}
