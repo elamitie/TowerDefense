@@ -16,6 +16,7 @@ public class PineNeedle extends ProjectileBasedWeapon {
 		this.setAttackRadius(200);
 		this.setRateOfFire(2);
 		this.setDamage(20);
+		this.setAntiAir(true);
 		
 		projectileWidth = 10;
 		projectileHeight = 5;

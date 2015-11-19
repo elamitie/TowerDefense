@@ -18,6 +18,7 @@ public class ProjectileBasedWeapon extends Weapon {
 	private int aoe;
 	private float slow;
 	private long slowTime;
+	private boolean antiAir;
 	
 	public ProjectileBasedWeapon() {
 		projectiles = new ArrayList<Projectile>();
@@ -27,14 +28,25 @@ public class ProjectileBasedWeapon extends Weapon {
 		this.slow = 0;
 		this.slowTime = 0;
 		this.speed = 50;
+		this.antiAir = false;
 	}
 
 	@Override
 	public void fire(Unit unit) {
 		Projectile p = new Projectile(parent.getX() + parent.getHalfWidth(), parent.getY() + parent.getHalfHeight(), speed);
-		p.targetX = unit.getX() + unit.getHalfWidth();
-		p.targetY = unit.getY() + unit.getHalfHeight();
-		p.setTarget(unit);
+		
+		if (antiAir) {
+			if (unit.isCanFly()) {
+				p.targetX = unit.getX() + unit.getHalfWidth();
+				p.targetY = unit.getY() + unit.getHalfHeight();
+				p.setTarget(unit);
+			}
+		}
+		else {
+			p.targetX = unit.getX() + unit.getHalfWidth();
+			p.targetY = unit.getY() + unit.getHalfHeight();
+			p.setTarget(unit);
+		}
 		
 		p.angle = Math.atan2(p.targetY - p.y, p.targetX - p.x);
 		Math.toDegrees(p.angle);
@@ -46,40 +58,42 @@ public class ProjectileBasedWeapon extends Weapon {
 		for (int i = projectiles.size(); i > 0; i--) {
 			Projectile p = projectiles.get(i - 1);
 			
-			p.targetX = p.getTarget().getX() + p.getTarget().getHalfWidth();
-			p.targetY = p.getTarget().getY() + p.getTarget().getHalfHeight();
-			p.angle = Math.atan2(p.targetY - p.y, p.targetX - p.x);
-			
-			boolean lessThanRadiusX = p.x < (parent.getX() + parent.getHalfWidth()) - getAttackRadius();
-			boolean greaterThanRadiusX = p.x > (parent.getX() + parent.getHalfWidth()) + getAttackRadius();
-			boolean lessThanRadiusY = p.y < (parent.getY() + parent.getHalfHeight()) - getAttackRadius();
-			boolean greaterThanRadiusY = p.y > (parent.getY() + parent.getHalfHeight()) + getAttackRadius();
-			
-			double velX = (Math.cos(p.angle) * Math.PI / 180) * (p.speed * gameTime);
-			double velY = (Math.sin(p.angle) * Math.PI / 180) * (p.speed * gameTime);
-			
-			if (lessThanRadiusX || greaterThanRadiusX || lessThanRadiusY || greaterThanRadiusY) {
-				if (projectiles.contains(p)) {
-					projectiles.remove(p);
-				}
-			}
-			else {
-				p.x += velX;
-				p.y += velY;
+			if (p.getTarget() != null) {
+				p.targetX = p.getTarget().getX() + p.getTarget().getHalfWidth();
+				p.targetY = p.getTarget().getY() + p.getTarget().getHalfHeight();
+				p.angle = Math.atan2(p.targetY - p.y, p.targetX - p.x);
 				
-				//Hits unit
-				if(p.distanceToTarget() <= 10){
+				boolean lessThanRadiusX = p.x < (parent.getX() + parent.getHalfWidth()) - getAttackRadius();
+				boolean greaterThanRadiusX = p.x > (parent.getX() + parent.getHalfWidth()) + getAttackRadius();
+				boolean lessThanRadiusY = p.y < (parent.getY() + parent.getHalfHeight()) - getAttackRadius();
+				boolean greaterThanRadiusY = p.y > (parent.getY() + parent.getHalfHeight()) + getAttackRadius();
+				
+				double velX = (Math.cos(p.angle) * Math.PI / 180) * (p.speed * gameTime);
+				double velY = (Math.sin(p.angle) * Math.PI / 180) * (p.speed * gameTime);
+				
+				if (lessThanRadiusX || greaterThanRadiusX || lessThanRadiusY || greaterThanRadiusY) {
 					if (projectiles.contains(p)) {
 						projectiles.remove(p);
-						if (aoe != 0) {
-							explode(p);
-						}
-						else {
-							if (damage != 0) 
-								p.getTarget().inflictDamage(damage);
+					}
+				}
+				else {
+					p.x += velX;
+					p.y += velY;
+					
+					//Hits unit
+					if(p.distanceToTarget() <= 10){
+						if (projectiles.contains(p)) {
+							projectiles.remove(p);
+							if (aoe != 0) {
+								explode(p);
+							}
+							else {
+								if (damage != 0) 
+									p.getTarget().inflictDamage(damage);
 								
-							if (slow != 0 && slowTime != 0) 
-								p.getTarget().applySlow(slow, slowTime);
+								if (slow != 0 && slowTime != 0) 
+									p.getTarget().applySlow(slow, slowTime);
+							}
 						}
 					}
 				}
@@ -111,5 +125,7 @@ public class ProjectileBasedWeapon extends Weapon {
 	public void setSlowTime(long slowTime) { this.slowTime = slowTime; }
 	public int getSpeed() { return speed; }
 	public void setSpeed(int speed) { this.speed = speed; }
-
+	public boolean getAntiAir() { return this.antiAir; }
+	public void setAntiAir(boolean antiAir) { this.antiAir = antiAir; }
+	
 }
