@@ -22,9 +22,13 @@ public class Projectile {
 	}
 	
 	public float distanceToTarget(){
-		return (float) Math.pow((Math.pow(targetY - y, 2) + Math.pow(targetX - x, 2)),.5f);
+		return distanceToUnit(target);
 	}
 
+	public float distanceToUnit(Unit unit){
+		return (float)Math.pow((Math.pow(unit.getY() + unit.getHalfHeight() - y, 2) + Math.pow(unit.getX() + unit.getHalfWidth() - x, 2)),.5f);
+	}
+	
 	public Unit getTarget() {
 		return target;
 	}
