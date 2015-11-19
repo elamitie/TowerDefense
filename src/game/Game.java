@@ -42,7 +42,16 @@ public class Game extends Canvas
 	
 	private Boolean mIsRunning;
 	
-	public Game()
+	private static Game instance;
+	
+	public static Game instance() {
+		if (instance == null) {
+			instance = new Game();
+		}
+		return instance;
+	}
+	
+	private Game()
 	{
 	    // Sets variables and objects for the game.
 	    init();
@@ -217,6 +226,14 @@ public class Game extends Canvas
 	        } catch (InterruptedException ex) { }
 		}
         
+	}
+	
+	public UnitManager getUnitManager() {
+		return mUnitManager;
+	}
+	
+	public TowerManager getTowerManager() {
+		return mTowerManager;
 	}
 
 }

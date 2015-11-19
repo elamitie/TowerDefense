@@ -22,7 +22,7 @@ public class Utility
 	@Test
 	public void gameCreated()
 	{
-		Game game = new Game();
+		Game game = Game.instance();
 		assertEquals(true, game.getIsRunning());
 	}
 

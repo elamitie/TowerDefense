@@ -19,7 +19,7 @@ public class Main
 	        
 	     // Creates the instance of Game that extends the Canvas which is a JPanel and puts it on the frame.
 	     //ContentPane is a top level container
-		 window.setContentPane(new Game());
+		 window.setContentPane(Game.instance());
 	        
 		 window.setVisible(true);
     }
