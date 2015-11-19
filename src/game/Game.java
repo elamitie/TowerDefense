@@ -1,14 +1,17 @@
 package game;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+
+import javax.swing.JPanel;
 
 import game.entities.Tower;
 import game.entities.TowerManager;
 import game.entities.Unit;
 import game.entities.UnitManager;
 import game.entities.WaveScroller;
-import game.graphics.Canvas;
 import game.levelSystems.LevelLayout;
 import game.utilities.JSONReader;
 import game.utilities.Sound;
@@ -20,10 +23,12 @@ import game.weapons.Walnut;
 import game.weapons.Water;
 
 @SuppressWarnings("serial")
-public class Game extends Canvas
+public class Game extends JPanel
 {
 	private JSONReader mFileReader;
 	private Sound mBackgroundSound;
+	
+	//Might want more than one level in the future
 	private ArrayList<LevelLayout> mLevels;
 	
 	public static final long secInNanosec = 1000000000L;
@@ -64,6 +69,11 @@ public class Game extends Canvas
 	    // Load game files (images, sounds, ...)
 	    loadContent();
 	    
+	 // We use double buffer to draw on the screen.
+        this.setDoubleBuffered(true);
+        this.setFocusable(true);
+        this.setBackground(Color.black);
+        
 	    Thread gameThread = new Thread() 
 	      {
 	          @Override
@@ -82,7 +92,7 @@ public class Game extends Canvas
 		mTowerManager = new TowerManager();
 		
 		mBackgroundSound = new Sound("music/music.wav");
-		mBackgroundSound.startMusic();
+		mBackgroundSound.playSound(true);
 		
 		mGameTime = (long) 0;
 		
@@ -201,7 +211,6 @@ public class Game extends Canvas
 		mUnitManager.addUnit(unit);
 	}
 	
-	@Override
 	public void draw(Graphics2D g2d) 
 	{
 		mLevels.get(0).draw(g2d);
@@ -209,6 +218,14 @@ public class Game extends Canvas
 		mUnitManager.draw(g2d);
 		mScroller.draw(g2d);
 	}
+	
+	@Override
+    public void paintComponent(Graphics g)
+    {
+        Graphics2D g2d = (Graphics2D)g;        
+        super.paintComponent(g2d);        
+        draw(g2d);
+    }
 	
 	public void gameLoop()
 	{

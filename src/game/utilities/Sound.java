@@ -25,7 +25,7 @@ public class Sound
 		return mSoundFile;
 	}
 	
-	public void playSound()
+	public void playSound(boolean loops)
 	{
 		File soundFile = new File(mSoundFile);
 		
@@ -60,46 +60,11 @@ public class Sound
 			e.printStackTrace();
 		}
 		
-		
-		mClip.start();
-	}
-	
-	public void startMusic()
-	{
-		File soundFile = new File(mSoundFile);
-		
-		try
-		{
-			mAudioIn = AudioSystem.getAudioInputStream(soundFile);
-			
-		} catch (UnsupportedAudioFileException e) 
-		{
-			e.printStackTrace();
-		} catch (IOException e) 
-		{
-			e.printStackTrace();
+		if(loops){
+			mClip.loop(Clip.LOOP_CONTINUOUSLY);
 		}
-		
-		try 
-		{
-			mClip = AudioSystem.getClip();
-		} catch (LineUnavailableException e) 
-		{
-			e.printStackTrace();
+		else{
+			mClip.start();
 		}
-		
-		try 
-		{
-			mClip.open(mAudioIn);
-		} catch (LineUnavailableException e) 
-		{
-			e.printStackTrace();
-		} catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		
-		mClip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 }

@@ -55,13 +55,13 @@ public class UnitManager {
 		for(int i = unitList.size(); i > 0; i--){
 			//Unit dead
 			if(unitList.get(i - 1).getmCurrentHealth() <= 0){
-				mDeathNoise.playSound();
+				mDeathNoise.playSound(false);
 				unitList.remove(i - 1);
 			}
 			//Unit reached end
 			else if(unitList.get(i - 1).getCurrentWaypoint() == null){
 				unitList.remove(i - 1);
-				mExitNoise.playSound();
+				mExitNoise.playSound(false);
 			}
 		}
 	}
