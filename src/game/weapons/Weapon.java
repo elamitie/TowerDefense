@@ -1,31 +1,44 @@
 package game.weapons;
 
+import java.awt.Graphics2D;
+
+import game.entities.Tower;
 import game.entities.Unit;
 
 public abstract class Weapon {
 
-	private float attackRadius;
-	private float range;
+	public int fireTimer;
+	private int rateOfFire;
+	private int attackRadius;
 	
-	public Weapon() {
+	protected Tower parent;
+	
+	public Weapon(Tower parent) {
+		this.parent = parent;
+		this.fireTimer = 1;
 	}
 	
-	public abstract void fire(Unit unit);
+	public abstract void fire(Unit unit);	
+	public abstract void update(long gametime);
+	public abstract void draw(Graphics2D g2d);
 
-	public float getRange() {
-		return range;
+	public int getRateOfFire() {
+		return rateOfFire;
 	}
 
-	public void setRange(float range) {
-		this.range = range;
+	public void setRateOfFire(int rateOfFire) {
+		this.rateOfFire = rateOfFire;
 	}
 
-	public float getAttackRadius() {
+	public int getAttackRadius() {
 		return attackRadius;
 	}
 
-	public void setAttackRadius(float attackRadius) {
+	public void setAttackRadius(int attackRadius) {
 		this.attackRadius = attackRadius;
 	}
 	
+	public void reset() {
+		fireTimer = rateOfFire * 1000; // millis
+	}
 }

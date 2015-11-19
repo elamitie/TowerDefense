@@ -6,6 +6,8 @@ import java.util.List;
 
 import game.Game;
 import game.graphics.Animation;
+import game.weapons.Kernel;
+import game.weapons.Weapon;
 
 public class Tower {
 
@@ -13,11 +15,11 @@ public class Tower {
 	private int y;
 	
 	private List<Unit> targets;
-	private float attackRadius;
-	private float rateOfFire;
 	
 	private List<Animation> animations;
 	private Animation currentAnim;
+	
+	private Weapon weapon;
 	
 	public Tower(int x, int y, int radius, int rateOfFire, ArrayList<Animation> animations) {
 		targets = new ArrayList<Unit>();
@@ -25,12 +27,10 @@ public class Tower {
 		this.x = x;
 		this.y = y;
 		
-		this.attackRadius = 200;
-		this.rateOfFire = rateOfFire;
 		this.animations = animations;
 		this.currentAnim = this.animations.get(0);
-		//this.weapon = weapon;
 		
+		this.weapon = new Kernel(this);
 	}
 	
 	public void setAnimation(String direction) {
@@ -67,16 +67,24 @@ public class Tower {
 	
 	public void update(long gametime) {
 		currentAnim.update(gametime);
+		weapon.update(gametime);
 		removeTargets();
-		addTargets();
-		
+		addTargets(gametime);
 	}
 	
-	private void addTargets(){
+	private void addTargets(long gametime){
 		
-		for(Unit unit : Game.instance().getUnitManager().getUnitList()){
-			if(distanceToUnit(unit) <= attackRadius){
+		for(Unit unit : Game.instance().getUnitManager().getUnitList()) {
+			if(distanceToUnit(unit) <= weapon.getAttackRadius()) {
 				targets.add(unit);
+				if(weapon.fireTimer > 0) {
+					weapon.fireTimer -= gametime;
+					
+					if(weapon.fireTimer <= 0) {
+						weapon.fire(unit);
+						weapon.reset();
+					}
+				}
 			}
 		}
 		
@@ -97,7 +105,7 @@ public class Tower {
 
 			Unit unit = targets.get(i - 1);
 			
-			if(distanceToUnit(unit) > attackRadius){
+			if(distanceToUnit(unit) > weapon.getAttackRadius()){
 				targets.remove(unit);
 			}	
 		}
@@ -108,10 +116,21 @@ public class Tower {
 	}
 	
 	public void draw(Graphics2D g2d) {
+		weapon.draw(g2d);
 		g2d.drawImage(currentAnim.getCurrentFrame(), x, y, null);
 		
 		//Draws range of the tower
 		//weapon.getRange()?
-		g2d.drawOval((int)(x - attackRadius/2 + 27), (int) ((int)(y) - attackRadius/2 + 27), (int)attackRadius, (int)attackRadius);
+		g2d.drawOval((x + currentAnim.getCurrentFrame().getWidth() / 2) - weapon.getAttackRadius(), 
+					 (y + currentAnim.getCurrentFrame().getWidth() / 2) - weapon.getAttackRadius(), 
+					  weapon.getAttackRadius() * 2, 
+					  weapon.getAttackRadius() * 2);
 	}
+	
+	public int getX() { return x; }
+	public int getY() { return y; }
+	public int getWidth() { return currentAnim.getCurrentFrame().getWidth(); }
+	public int getHeight() { return currentAnim.getCurrentFrame().getHeight(); }
+	public int getHalfWidth() { return getWidth() / 2; }
+	public int getHalfHeight() { return getHeight() / 2; }
 }
