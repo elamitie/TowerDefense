@@ -12,15 +12,7 @@ import game.graphics.Canvas;
 import game.levelSystems.LevelLayout;
 import game.utilities.JSONReader;
 import game.utilities.Sound;
-<<<<<<< HEAD
-import game.weapons.PineNeedle;
-=======
 import game.weapons.PineCone;
-import game.weapons.Walnut;
-
-import java.awt.Graphics2D;
-import java.util.ArrayList;
->>>>>>> aa83aa939895be0035f3136bce61a2d106e33b8d
 
 @SuppressWarnings("serial")
 public class Game extends Canvas
