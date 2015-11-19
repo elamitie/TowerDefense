@@ -25,14 +25,14 @@ public class Animation
 		return mFrames.get(mCurrentFrame);
 	}
 	
-	public BufferedImage getCurrentFrameSlowed(float slowPercent)
+	public BufferedImage getCurrentFrameSlowed()
 	{
 		int width = mFrames.get(mCurrentFrame).getWidth(null);
 	    int height = mFrames.get(mCurrentFrame).getHeight(null);
 	    BufferedImage tinted = new BufferedImage(width, height, BufferedImage.TRANSLUCENT);
 	    Graphics2D graphics = (Graphics2D) tinted.getGraphics();
 	    graphics.drawImage(mFrames.get(mCurrentFrame), 0, 0, width, height, null);
-	    Color c = new Color(0,0,(int)(200 * slowPercent),128);
+	    Color c = new Color(0,0,(int)(200),128);
 	    Color n = new Color(0,0,0,0);
 	    BufferedImage tint = new BufferedImage(width, height, BufferedImage.TRANSLUCENT);
 	    for(int i = 0 ; i < width ; i++){
