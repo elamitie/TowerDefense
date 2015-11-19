@@ -360,7 +360,7 @@
 	"sourceSize": {"w":64,"h":64},
 	"pivot": {"x":0.5,"y":0.5}
 },
-"lightning.png":
+"lightning-up.png":
 {
 	"frame": {"x":148,"y":138,"w":53,"h":40},
 	"rotated": false,
