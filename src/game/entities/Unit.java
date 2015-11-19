@@ -2,6 +2,7 @@ package game.entities;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import game.graphics.Animation;
@@ -22,7 +23,10 @@ public class Unit
 	private int mMaxHealth;
 	private int mCurrentHealth;
 	private Waypoint mCurrentWaypoint;
-	private int mSpeed = 2;
+	private float mMaxSpeed = 2;
+	private long mSlowMaxTime = 0;
+	private long mSlowTime = 0;
+	private float mSpeed = 2;
 	private boolean mCanFly;
 	
 	public Unit(int locX, int locY, ArrayList<Animation> animation)
@@ -37,6 +41,7 @@ public class Unit
 		mMaxHealth = 100;
 		mCurrentHealth = mMaxHealth;
 		
+		applySlow(1.0f, 3000);
 	}
 	
 	public void setAnimation(String direction)
@@ -83,29 +88,38 @@ public class Unit
 		return mHeight;
 	}
 	
-	public void update(long gametime)
-	{
+	public void update(long gametime){
 		mCurrentAnimation.update(gametime);
 		
 		//Only moves unit if valid waypoint is set
 		if(mCurrentWaypoint != null){
+			calcSpeed(gametime);
 			move();
 		}
 	}
 	
-	public void draw(Graphics2D g2d)
-	{
-		g2d.drawImage(mCurrentAnimation.getCurrentFrame(), mX, mY, null);
+	public void draw(Graphics2D g2d){
 		
 		//Draw health bar
 		float healthPercentage = (float)mCurrentHealth / mMaxHealth;
 		Color healthBarColor;
 		
 		if(healthPercentage > .5){
-			healthBarColor = new Color(((255 - (int)(255*(healthPercentage))) * 2),255,0,175);
+			healthBarColor = new Color(((255 - (int)(255*(healthPercentage))) * 2),255,0,255);
 		}else{
-			healthBarColor = new Color(255,((int)(255*(healthPercentage))) * 2,0,175);
+			healthBarColor = new Color(255,((int)(255*(healthPercentage))) * 2,0,255);
 		}
+		
+		//Check Slowed
+		if (mSpeed < mMaxSpeed){
+			float slowPercent = mSpeed / mMaxSpeed;
+			g2d.drawImage(mCurrentAnimation.getCurrentFrameSlowed(slowPercent), mX, mY, null);
+			healthBarColor = new Color(healthBarColor.getRed(), healthBarColor.getGreen(), healthBarColor.getBlue() + 150, healthBarColor.getAlpha());
+		}
+		else{
+			g2d.drawImage(mCurrentAnimation.getCurrentFrame(), mX, mY, null);
+		}
+		
 		
 		//Health bar position is relative to unit position
 		//Health bar fades from green to yellow to red as it decreases!
@@ -113,6 +127,29 @@ public class Unit
 		g2d.fillRect(mX, mY + HEALTH_Y_OFFSET, (int)(HEALTH_BAR_WIDTH * healthPercentage), HEALTH_BAR_HEIGHT);
 		g2d.setColor(Color.black);
 		g2d.drawRect(mX, mY + HEALTH_Y_OFFSET, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT);
+	}
+	
+	public void applySlow(float speed, long time){
+		
+		//Only applies slow if unit will actually be slowed down
+		if(mSpeed >= speed){
+			mSpeed = speed;
+			mSlowMaxTime = time;
+			mSlowTime = mSlowMaxTime;
+		}
+		
+	}
+	
+	private void calcSpeed(long gametime)
+	{
+		if(mSlowTime > 0){
+			mSlowTime -= gametime;
+			
+			if(mSlowTime <= 0){
+				mSpeed = mMaxSpeed;
+			}
+		}
+		
 	}
 	
 	private void move(){
