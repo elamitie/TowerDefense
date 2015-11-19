@@ -1,7 +1,9 @@
 package game.weapons;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,71 +12,95 @@ import game.entities.Unit;
 
 public class Lightning extends Weapon {
 	
-	public static final int arcRange = 150;
+	public static final int arcRange = 200;
 	public static final int maxArcs = 5;
+	public static final int lightningWidth = 2;
+	public static final long maxLightningTimer = 750;
 	
-	private List<Arc> arcs;
 	private List<Unit> hitList;
 	private int damage;
+	private long lightningTimer;
 	
 	public Lightning() {
-		arcs = new ArrayList<Arc>();
+		
 		hitList = new ArrayList<Unit>();
 		this.setAttackRadius(200);
 		this.setRateOfFire(10);
 		
-		damage = 10;
+		damage = 15;
+		lightningTimer = 0;
 	}
 
 	@Override
 	public void fire(Unit unit) {
-		/*
+		
+		lightningTimer = maxLightningTimer;
+		
+		hitList.clear();
+		
 		hitList.add(unit);
+		unit.inflictDamage(damage);
 		
-		//First arc
-		for(Unit potentialArc : Game.instance().getUnitManager().getUnitList()) {
-			if(arcs.get(arcs.size() - 1).distanceToUnit(unit) <= arcRange) {
-				unit.inflictDamage(damage);
-				arcs.add(new Arc(hitList.get(0), potentialArc));
-				hitList.add(potentialArc);
-				
-			}
-		}
-		
-		//Latter arcs
-		for(int i = 0; i < maxArcs - 1; i++){
-			for(Unit potentialArc : Game.instance().getUnitManager().getUnitList()) {
-				//Make sure unit was not already arced to and is in range
-				if(!hitList.contains(potentialArc) && arcs.get(arcs.size() - 1).distanceToUnit(unit) <= arcRange) {
-					unit.inflictDamage(damage);
-					arcs.add(new Arc(arcs.get(arcs.size() - 1).getArcTo(), potentialArc));
+		for(int i = 0; i < maxArcs; i++){
+			for(Unit potentialArc : Game.instance().getUnitManager().getUnitList()){
+				if(!hitList.contains(potentialArc) && rangeCheck(potentialArc)){
 					hitList.add(potentialArc);
+					potentialArc.inflictDamage(damage);
 				}
 			}
 		}
-		*/
+		
 	}
 	
 	@Override
 	public void update(long gameTime) {
-		
+		if(lightningTimer > 0){
+			lightningTimer -= gameTime;
+			
+			if(lightningTimer <= 0){
+				hitList.clear();
+			}
+		}
 	}
 	
 	@Override
 	public void draw(Graphics2D g2d) {
 		
-		/*
+		Stroke prevStroke = g2d.getStroke();
+		Color prevColor = g2d.getColor();
+		
+		g2d.setStroke(new BasicStroke(lightningWidth));
 		g2d.setColor(Color.yellow);
 		
 		if(!hitList.isEmpty()){
-			g2d.drawLine(parent.getX(),parent.getY(),hitList.get(0).getX(), hitList.get(0).getY());
+			
+			int x1 = parent.getX() + parent.getHalfWidth();
+			int y1 = parent.getY() + parent.getHalfHeight();
+			int x2 = hitList.get(0).getX() + hitList.get(0).getHalfWidth();
+			int y2 = hitList.get(0).getY() + hitList.get(0).getHalfHeight();
+			
+			g2d.drawLine(x1,y1,x2, y2);
+			
+			for(int i = 1; i < hitList.size(); i++){
+				
+				x1 = hitList.get(i - 1).getX() + hitList.get(i - 1).getHalfWidth();
+				y1 = hitList.get(i - 1).getY() + hitList.get(i - 1).getHalfHeight();
+				x2 = hitList.get(i).getX() + hitList.get(i).getHalfWidth();
+				y2 = hitList.get(i).getY() + hitList.get(i).getHalfHeight();
+				
+				g2d.drawLine(x1,y1,x2, y2);
+			}
+			
 		}
-					
 		
-		for (Arc arc : arcs) {
-			arc.draw(g2d);
-		}
-		*/
+		g2d.setStroke(prevStroke);
+		g2d.setColor(prevColor);		
 	}
 	
+	//Checks range from last arc to new arc
+	private boolean rangeCheck(Unit unit){
+		
+		return ((float)Math.pow((Math.pow(unit.getY() + unit.getHalfHeight() - hitList.get(hitList.size() - 1).getY(), 2) + Math.pow(unit.getX() + unit.getHalfWidth() - hitList.get(hitList.size() - 1).getX(), 2)),.5f) <= arcRange);
+		
+	}
 }
