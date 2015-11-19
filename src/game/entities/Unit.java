@@ -100,6 +100,12 @@ public class Unit
 		
 		//Draw health bar
 		float healthPercentage = (float)mCurrentHealth / mMaxHealth;
+		
+		if(healthPercentage < 0)
+			healthPercentage = 0;
+		else if(healthPercentage > 1)
+			healthPercentage = 1;
+			
 		Color healthBarColor;
 		
 		if(healthPercentage > .5){

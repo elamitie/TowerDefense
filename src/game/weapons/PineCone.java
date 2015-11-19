@@ -4,26 +4,29 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import game.Game;
 import game.entities.Unit;
 
-public class Walnut extends Weapon {
+public class PineCone extends Weapon {
+	
+	public static final int aoe = 100;
 	
 	private List<Projectile> projectiles;
 	private int projectileRadius;
 	private int damage;
 	
-	public Walnut() {
+	public PineCone() {
 		projectiles = new ArrayList<Projectile>();
 		this.setAttackRadius(200);
-		this.setRateOfFire(5);
+		this.setRateOfFire(8);
 		
-		damage = 30;
-		projectileRadius = 6;
+		damage = 40;
+		projectileRadius = 9;
 	}
 
 	@Override
 	public void fire(Unit unit) {
-		Projectile p = new Projectile(parent.getX() + parent.getHalfWidth(), parent.getY() + parent.getHalfHeight(), 15);
+		Projectile p = new Projectile(parent.getX() + parent.getHalfWidth(), parent.getY() + parent.getHalfHeight(), 25);
 		p.targetX = unit.getX() + unit.getHalfWidth();
 		p.targetY = unit.getY() + unit.getHalfHeight();
 		p.setTarget(unit);
@@ -35,13 +38,11 @@ public class Walnut extends Weapon {
 	
 	@Override
 	public void update(long gameTime) {
-		
 		for (int i = projectiles.size(); i > 0; i--) {
 			Projectile p = projectiles.get(i - 1);
 			
 			p.targetX = p.getTarget().getX() + p.getTarget().getHalfWidth();
 			p.targetY = p.getTarget().getY() + p.getTarget().getHalfHeight();
-			
 			p.angle = Math.atan2(p.targetY - p.y, p.targetX - p.x);
 			
 			boolean lessThanRadiusX = p.x < (parent.getX() + parent.getHalfWidth()) - getAttackRadius();
@@ -53,9 +54,7 @@ public class Walnut extends Weapon {
 			double velY = (Math.sin(p.angle) * Math.PI / 180) * (p.speed * gameTime);
 			
 			if (lessThanRadiusX || greaterThanRadiusX || lessThanRadiusY || greaterThanRadiusY) {
-				if (projectiles.contains(p)) {
-					projectiles.remove(p);
-				}
+				explode(p);
 			}
 			else {
 				p.x += velX;
@@ -63,12 +62,22 @@ public class Walnut extends Weapon {
 				
 				//Hits unit
 				if(p.distanceToTarget() <= 10){
-					if (projectiles.contains(p)) {
-						projectiles.remove(p);
-						p.getTarget().inflictDamage(damage);
-					}
+					explode(p);
 				}
 			}
+		}
+	}
+	
+	private void explode(Projectile p){
+		if (projectiles.contains(p)) {
+			
+			for(Unit unit : Game.instance().getUnitManager().getUnitList()) {
+				if(p.distanceToUnit(unit) <= aoe) {
+					unit.inflictDamage(damage);
+				}
+			}
+			
+			projectiles.remove(p);
 		}
 	}
 	
