@@ -12,6 +12,11 @@ import game.graphics.Canvas;
 import game.levelSystems.LevelLayout;
 import game.utilities.JSONReader;
 import game.utilities.Sound;
+import game.weapons.Kernel;
+import game.weapons.Lightning;
+import game.weapons.PineCone;
+import game.weapons.PineNeedle;
+import game.weapons.Walnut;
 import game.weapons.Water;
 
 @SuppressWarnings("serial")
@@ -102,7 +107,12 @@ public class Game extends Canvas
 		  
 		  mScroller = new WaveScroller();
 		  
-		  mTowerManager.add(new Tower(197, 260, 50, 5, mFileReader.readTowerInfo("water"), new Water()), "up");
+		  mTowerManager.add(new Tower(197, 260, mFileReader.readTowerInfo("water"), new Water()), "up");
+		  mTowerManager.add(new Tower(197, 200, mFileReader.readTowerInfo("lightning"), new Lightning()), "up");
+		  mTowerManager.add(new Tower(320, 200, mFileReader.readTowerInfo("cone"), new PineCone()), "up");
+		  mTowerManager.add(new Tower(520, 320, mFileReader.readTowerInfo("needle"), new PineNeedle()), "up");
+		  mTowerManager.add(new Tower(645, 320, mFileReader.readTowerInfo("walnut"), new Walnut()), "up");
+		  mTowerManager.add(new Tower(770, 135, mFileReader.readTowerInfo("kernel"), new Kernel()), "up");
 	}    
 	  
 	  

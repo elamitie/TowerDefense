@@ -55,9 +55,8 @@ public class UnitManager {
 			if(unitList.get(i - 1).getmCurrentHealth() <= 0){
 				unitList.remove(i - 1);
 			}
-			
 			//Unit reached end
-			if(unitList.get(i - 1).getCurrentWaypoint() == null){
+			else if(unitList.get(i - 1).getCurrentWaypoint() == null){
 				unitList.remove(i - 1);
 				mExitNoise.playSound();
 			}
