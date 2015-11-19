@@ -21,7 +21,7 @@ public class Tower {
 	
 	private Weapon weapon;
 	
-	public Tower(int x, int y, int radius, int rateOfFire, ArrayList<Animation> animations) {
+	public Tower(int x, int y, int radius, int rateOfFire, ArrayList<Animation> animations, Weapon weapon) {
 		targets = new ArrayList<Unit>();
 		
 		this.x = x;
@@ -30,7 +30,8 @@ public class Tower {
 		this.animations = animations;
 		this.currentAnim = this.animations.get(0);
 		
-		this.weapon = new Kernel(this);
+		this.weapon = weapon;
+		this.weapon.init(this);
 	}
 	
 	public void setAnimation(String direction) {

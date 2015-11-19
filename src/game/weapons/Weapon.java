@@ -13,9 +13,12 @@ public abstract class Weapon {
 	
 	protected Tower parent;
 	
-	public Weapon(Tower parent) {
-		this.parent = parent;
+	public Weapon() {
+	}
+	
+	public void init(Tower parent) {
 		this.fireTimer = 1;
+		this.parent = parent;
 	}
 	
 	public abstract void fire(Unit unit);	

@@ -13,9 +13,7 @@ public class Kernel extends Weapon {
 	private int projectileRadius;
 	private int damage;
 	
-	public Kernel(Tower tower) {
-		super(tower);
-		
+	public Kernel() {
 		projectiles = new ArrayList<Projectile>();
 		this.setAttackRadius(200);
 		this.setRateOfFire(2);

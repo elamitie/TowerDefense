@@ -12,6 +12,7 @@ import game.graphics.Canvas;
 import game.levelSystems.LevelLayout;
 import game.utilities.JSONReader;
 import game.utilities.Sound;
+import game.weapons.Kernel;
 
 @SuppressWarnings("serial")
 public class Game extends Canvas
@@ -101,8 +102,9 @@ public class Game extends Canvas
 		  
 		  mScroller = new WaveScroller();
 		  
-		  mTowerManager.add(new Tower(197, 260, 50, 5, mFileReader.readTowerInfo("kernel")), "right");
-		  mTowerManager.add(new Tower(197, 200, 50, 5, mFileReader.readTowerInfo("kernel")), "up");
+		  
+		  mTowerManager.add(new Tower(197, 260, 50, 5, mFileReader.readTowerInfo("kernel"), new Kernel()), "right");
+		  mTowerManager.add(new Tower(197, 200, 50, 5, mFileReader.readTowerInfo("kernel"), new Kernel()), "up");
 	}    
 	  
 	  
