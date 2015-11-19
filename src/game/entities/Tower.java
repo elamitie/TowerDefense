@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import game.Game;
 import game.graphics.Animation;
 
 public class Tower {
@@ -24,11 +25,12 @@ public class Tower {
 		this.x = x;
 		this.y = y;
 		
-		this.attackRadius = radius;
+		this.attackRadius = 200;
 		this.rateOfFire = rateOfFire;
 		this.animations = animations;
 		this.currentAnim = this.animations.get(0);
 		//this.weapon = weapon;
+		
 	}
 	
 	public void setAnimation(String direction) {
@@ -65,9 +67,51 @@ public class Tower {
 	
 	public void update(long gametime) {
 		currentAnim.update(gametime);
+		removeTargets();
+		addTargets();
+		
+	}
+	
+	private void addTargets(){
+		
+		for(Unit unit : Game.instance().getUnitManager().getUnitList()){
+			if(distanceToUnit(unit) <= attackRadius){
+				targets.add(unit);
+			}
+		}
+		
+	}
+	
+	private void removeTargets(){
+		
+		for(int i = targets.size(); i > 0; i--){
+
+			//Remove unit from target list if died of other means
+			if(!Game.instance().getUnitManager().getUnitList().contains(targets.get(i - 1))){
+				targets.remove(i - 1);
+			}
+		}
+		
+		//Needed to go backwards in a for loop instead of for each to prevent removal error
+		for(int i = targets.size(); i > 0; i--){
+
+			Unit unit = targets.get(i - 1);
+			
+			if(distanceToUnit(unit) > attackRadius){
+				targets.remove(unit);
+			}	
+		}
+	}
+	
+	private float distanceToUnit(Unit unit){
+		return (float) Math.pow((Math.pow(unit.getY() - y, 2) + Math.pow(unit.getX() - x, 2)),.5f);
 	}
 	
 	public void draw(Graphics2D g2d) {
 		g2d.drawImage(currentAnim.getCurrentFrame(), x, y, null);
+		
+		//Draws range of the tower
+		//weapon.getRange()?
+		g2d.drawOval((int)(x - attackRadius/2 + 27), (int) ((int)(y) - attackRadius/2 + 27), (int)attackRadius, (int)attackRadius);
 	}
 }

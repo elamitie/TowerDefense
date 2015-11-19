@@ -112,8 +112,9 @@ public class Unit
 		//Check Slowed
 		if (mSpeed < mMaxSpeed){
 			float slowPercent = mSpeed / mMaxSpeed;
-			g2d.drawImage(mCurrentAnimation.getCurrentFrameSlowed(slowPercent), mX, mY, null);
+			//g2d.drawImage(mCurrentAnimation.getCurrentFrameSlowed(slowPercent), mX, mY, null);
 			healthBarColor = new Color(healthBarColor.getRed(), healthBarColor.getGreen(), healthBarColor.getBlue() + 150, healthBarColor.getAlpha());
+			g2d.drawImage(mCurrentAnimation.getCurrentFrame(), mX, mY, null);
 		}
 		else{
 			g2d.drawImage(mCurrentAnimation.getCurrentFrame(), mX, mY, null);
