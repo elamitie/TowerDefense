@@ -1,5 +1,8 @@
 package game;
 
+import java.awt.Graphics2D;
+import java.util.ArrayList;
+
 import game.entities.Tower;
 import game.entities.TowerManager;
 import game.entities.Unit;
@@ -9,11 +12,7 @@ import game.graphics.Canvas;
 import game.levelSystems.LevelLayout;
 import game.utilities.JSONReader;
 import game.utilities.Sound;
-import game.weapons.Kernel;
-import game.weapons.Water;
-
-import java.awt.Graphics2D;
-import java.util.ArrayList;
+import game.weapons.PineNeedle;
 
 @SuppressWarnings("serial")
 public class Game extends Canvas
@@ -104,7 +103,7 @@ public class Game extends Canvas
 		  mScroller = new WaveScroller();
 		  
 		  
-		  mTowerManager.add(new Tower(197, 260, 50, 5, mFileReader.readTowerInfo("kernel"), new Kernel()), "right");
+		  mTowerManager.add(new Tower(197, 260, 50, 5, mFileReader.readTowerInfo("kernel"), new PineNeedle()), "right");
 		  //mTowerManager.add(new Tower(197, 200, 50, 5, mFileReader.readTowerInfo("water"), new Water()), "up");
 	}    
 	  
