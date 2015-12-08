@@ -31,17 +31,17 @@ public class Game extends JPanel
 	//Might want more than one level in the future
 	private ArrayList<LevelLayout> mLevels;
 	
-	public static final long secInNanosec = 1000000000L;
-    public static final long milisecInNanosec = 1000000L;
-    public static final int walkingStartPoint = 375;
-    public static final int flyingStartPoint = 270;
-    public static final int unitCount = 7;
+	public static final long SEC_IN_NANOSEC = 1000000000L;
+    public static final long MILISEC_IN_NANOSEC = 1000000L;
+    public static final int WALKING_START_POINT = 375;
+    public static final int FLYING_START_POINT = 270;
+    public static final int UNIT_COUNT = 7;
     private int mTimeBetweenSpawns = 500;
     private int mTimeBetweenGroups = 1000;
     private int mTimeBetween = 0;
 	
     private int mFPS = 60;
-    private long mUpdatePeriod = secInNanosec / mFPS;	
+    private long mUpdatePeriod = SEC_IN_NANOSEC / mFPS;	
 	private long mGameTime;
 	private int mWave;
 	private int mEnemiesSpawned;
@@ -144,7 +144,7 @@ public class Game extends JPanel
 			mTimeBetween -= gameTime;
 			
 			if(mTimeBetween <= 0){
-				if(mEnemiesSpawned < mWave * unitCount){
+				if(mEnemiesSpawned < mWave * UNIT_COUNT){
 					spawnNextUnit();
 					mEnemiesSpawned++;
 				}
@@ -202,10 +202,10 @@ public class Game extends JPanel
 		}
 		
 		if(canFly){
-			unit = new Unit(-50, flyingStartPoint, mFileReader.readMonstersInfo(unitType));
+			unit = new Unit(-50, FLYING_START_POINT, mFileReader.readMonstersInfo(unitType));
 		}
 		else{
-			unit = new Unit(-50, walkingStartPoint, mFileReader.readMonstersInfo(unitType));
+			unit = new Unit(-50, WALKING_START_POINT, mFileReader.readMonstersInfo(unitType));
 		}
 		unit.setCanFly(canFly);
 		mUnitManager.addUnit(unit);
@@ -236,14 +236,14 @@ public class Game extends JPanel
 		{
 			beginTime = System.nanoTime();
 			
-			mGameTime = (System.nanoTime() - lastTime) / milisecInNanosec;
+			mGameTime = (System.nanoTime() - lastTime) / MILISEC_IN_NANOSEC;
 			update(mGameTime);
 			lastTime = System.nanoTime();
 
 			repaint();
 			
 			timeTaken = System.nanoTime() - beginTime;
-	        timeLeft = (mUpdatePeriod - timeTaken) / milisecInNanosec;
+	        timeLeft = (mUpdatePeriod - timeTaken) / MILISEC_IN_NANOSEC;
 			
 	        if (timeLeft < 10) 
 	            timeLeft = 10; //set a minimum

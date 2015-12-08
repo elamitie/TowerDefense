@@ -12,10 +12,10 @@ import game.entities.Unit;
 
 public class Lightning extends Weapon {
 	
-	public static final int arcRange = 200;
-	public static final int maxArcs = 5;
-	public static final int lightningWidth = 2;
-	public static final long maxLightningTimer = 750;
+	public static final int ARC_RANGE = 200;
+	public static final int MAX_ARCS = 5;
+	public static final int LIGHTNING_WIDTH = 2;
+	public static final long MAX_LIGHTNING_TIMER = 750;
 	
 	private List<Unit> hitList;
 	private int damage;
@@ -34,14 +34,14 @@ public class Lightning extends Weapon {
 	@Override
 	public void fire(Unit unit) {
 		
-		lightningTimer = maxLightningTimer;
+		lightningTimer = MAX_LIGHTNING_TIMER;
 		
 		hitList.clear();
 		
 		hitList.add(unit);
 		unit.inflictDamage(damage);
 		
-		for(int i = 0; i < maxArcs; i++){
+		for(int i = 0; i < MAX_ARCS; i++){
 			for(Unit potentialArc : Game.instance().getUnitManager().getUnitList()){
 				if(!hitList.contains(potentialArc) && rangeCheck(potentialArc)){
 					hitList.add(potentialArc);
@@ -71,7 +71,7 @@ public class Lightning extends Weapon {
 		Stroke prevStroke = g2d.getStroke();
 		Color prevColor = g2d.getColor();
 		
-		g2d.setStroke(new BasicStroke(lightningWidth));
+		g2d.setStroke(new BasicStroke(LIGHTNING_WIDTH));
 		g2d.setColor(Color.yellow);
 		
 		if(!hitList.isEmpty()){
@@ -111,7 +111,7 @@ public class Lightning extends Weapon {
 	//Checks range from last arc to new arc
 	private boolean rangeCheck(Unit unit){
 		
-		return ((float)Math.pow((Math.pow(unit.getY() + unit.getHalfHeight() - hitList.get(hitList.size() - 1).getY(), 2) + Math.pow(unit.getX() + unit.getHalfWidth() - hitList.get(hitList.size() - 1).getX(), 2)),.5f) <= arcRange);
+		return ((float)Math.pow((Math.pow(unit.getY() + unit.getHalfHeight() - hitList.get(hitList.size() - 1).getY(), 2) + Math.pow(unit.getX() + unit.getHalfWidth() - hitList.get(hitList.size() - 1).getX(), 2)),.5f) <= ARC_RANGE);
 		
 	}
 
