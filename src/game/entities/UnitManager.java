@@ -54,7 +54,7 @@ public class UnitManager {
 		
 		for(int i = unitList.size(); i > 0; i--){
 			//Unit dead
-			if(unitList.get(i - 1).getmCurrentHealth() <= 0){
+			if(unitList.get(i - 1).getCurrentHealth() <= 0){
 				mDeathNoise.playSound(false);
 				unitList.remove(i - 1);
 			}

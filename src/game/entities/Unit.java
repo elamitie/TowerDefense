@@ -159,7 +159,7 @@ public class Unit
 	private void move(){
 		
 		//Moves in proper direction according to waypoint orientation
-		switch(mCurrentWaypoint.getmDirection()){
+		switch(mCurrentWaypoint.getDirection()){
 			case "right":
 				mX +=mSpeed;
 				
@@ -195,19 +195,19 @@ public class Unit
 		}
 	}
 	
-	public int getmMaxHealth() {
+	public int getMaxHealth() {
 		return mMaxHealth;
 	}
 
-	public void setmMaxHealth(int maxHealth) {
+	public void setMaxHealth(int maxHealth) {
 		this.mMaxHealth = maxHealth;
 	}
 
-	public int getmCurrentHealth() {
+	public int getCurrentHealth() {
 		return mCurrentHealth;
 	}
 
-	public void setmCurrentHealth(int currentHealth) {
+	public void setCurrentHealth(int currentHealth) {
 		this.mCurrentHealth = currentHealth;
 	}
 
@@ -222,7 +222,7 @@ public class Unit
 	public void setCurrentWaypoint(Waypoint waypoint) {
 		this.mCurrentWaypoint = waypoint;
 		if(waypoint != null){
-			setAnimation(mCurrentWaypoint.getmDirection());
+			setAnimation(mCurrentWaypoint.getDirection());
 		}
 	}
 

@@ -19,10 +19,10 @@ public class Waypoint {
 		mNextWaypoint = waypoint;
 	}
 	
-	public String getmDirection() {
+	public String getDirection() {
 		return mDirection;
 	}
-	public void setmDirection(String mDirection) {
+	public void setDirection(String mDirection) {
 		this.mDirection = mDirection;
 	}
 
