@@ -8,18 +8,18 @@ import game.entities.Unit;
 
 public class PineNeedle extends ProjectileBasedWeapon {
 	
-	private int projectileWidth;
-	private int projectileHeight;
+	public static final int ATTACK_RADIUS = 200;
+	public static final int RATE_OF_FIRE = 2;
+	public static final int DAMAGE = 20;
+	public static final int PROJECTILE_WIDTH = 10;
+	public static final int PROJECTILE_HEIGHT = 5;
 
 	public PineNeedle() {
 		super();
-		this.setAttackRadius(200);
-		this.setRateOfFire(2);
-		this.setDamage(20);
+		this.setAttackRadius(ATTACK_RADIUS);
+		this.setRateOfFire(RATE_OF_FIRE);
+		this.setDamage(DAMAGE);
 		this.setAntiAir(true);
-		
-		projectileWidth = 10;
-		projectileHeight = 5;
 	}
 
 	@Override
@@ -36,8 +36,8 @@ public class PineNeedle extends ProjectileBasedWeapon {
 	public void draw(Graphics2D g2d) {
 		Graphics2D gg = (Graphics2D)g2d.create();
 		Rectangle rect = new Rectangle();
-		rect.width = projectileWidth;
-		rect.height = projectileHeight;
+		rect.width = PROJECTILE_WIDTH;
+		rect.height = PROJECTILE_HEIGHT;
 		
 		for (Projectile p : projectiles) {
 			rect.x = p.x;

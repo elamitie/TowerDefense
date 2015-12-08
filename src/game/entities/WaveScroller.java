@@ -36,7 +36,6 @@ public class WaveScroller
 		try {
 			scrollerIcon = ImageIO.read(new File("images/scroller-icon.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

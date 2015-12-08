@@ -7,15 +7,23 @@ import game.entities.Unit;
 
 public class Water extends ProjectileBasedWeapon {
 	
+	public static final int ATTACK_RADIUS = 200;
+	public static final int RATE_OF_FIRE = 6;
+	public static final int DAMAGE = 0;
+	public static final int PROJECTILE_RADIUS = 6;
+	public static final int AOE = 0;
+	public static final float SLOW = 1.0f;
+	public static final int SLOW_TIME = 3000;
+	
 	public Water() {
 		super();
-		this.setAttackRadius(200);
-		this.setRateOfFire(6);
-		this.setDamage(0);
-		this.setProjectileRadius(6);
-		this.setAoe(0);
-		this.setSlow(1.0f);
-		this.setSlowTime(3000);
+		this.setAttackRadius(ATTACK_RADIUS);
+		this.setRateOfFire(RATE_OF_FIRE);
+		this.setDamage(DAMAGE);
+		this.setProjectileRadius(PROJECTILE_RADIUS);
+		this.setAoe(AOE);
+		this.setSlow(SLOW);
+		this.setSlowTime(SLOW_TIME);
 	}
 
 	@Override

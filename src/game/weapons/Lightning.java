@@ -16,6 +16,9 @@ public class Lightning extends Weapon {
 	public static final int MAX_ARCS = 5;
 	public static final int LIGHTNING_WIDTH = 2;
 	public static final long MAX_LIGHTNING_TIMER = 750;
+	public static final int ATTACK_RADIUS = 200;
+	public static final int RATE_OF_FIRE = 10;
+	public static final int DAMAGE = 15;
 	
 	private List<Unit> hitList;
 	private int damage;
@@ -24,10 +27,10 @@ public class Lightning extends Weapon {
 	public Lightning() {
 		
 		hitList = new ArrayList<Unit>();
-		this.setAttackRadius(200);
-		this.setRateOfFire(10);
+		this.setAttackRadius(ATTACK_RADIUS);
+		this.setRateOfFire(RATE_OF_FIRE);
 		
-		damage = 15;
+		damage = DAMAGE;
 		lightningTimer = 0;
 	}
 

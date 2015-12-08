@@ -7,12 +7,17 @@ import game.entities.Unit;
 
 public class Kernel extends ProjectileBasedWeapon {
 	
+	public static final int ATTACK_RADIUS = 200;
+	public static final int RATE_OF_FIRE = 2;
+	public static final int DAMAGE = 10;
+	public static final int PROJECTILE_RADIUS = 4;
+	
 	public Kernel() {
 		super();
-		this.setAttackRadius(200);
-		this.setRateOfFire(2);
-		this.setDamage(10);
-		this.setProjectileRadius(4);
+		this.setAttackRadius(ATTACK_RADIUS);
+		this.setRateOfFire(RATE_OF_FIRE);
+		this.setDamage(DAMAGE);
+		this.setProjectileRadius(PROJECTILE_RADIUS);
 	}
 
 	@Override

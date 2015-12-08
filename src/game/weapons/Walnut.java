@@ -7,12 +7,17 @@ import game.entities.Unit;
 
 public class Walnut extends ProjectileBasedWeapon {
 	
+	public static final int ATTACK_RADIUS = 200;
+	public static final int RATE_OF_FIRE = 5;
+	public static final int DAMAGE = 30;
+	public static final int PROJECTILE_RADIUS = 9;
+	
 	public Walnut() {
 		super();
-		this.setAttackRadius(200);
-		this.setRateOfFire(5);
-		this.setDamage(30);
-		this.setProjectileRadius(9);
+		this.setAttackRadius(ATTACK_RADIUS);
+		this.setRateOfFire(RATE_OF_FIRE);
+		this.setDamage(DAMAGE);
+		this.setProjectileRadius(PROJECTILE_RADIUS);
 	}
 
 	@Override

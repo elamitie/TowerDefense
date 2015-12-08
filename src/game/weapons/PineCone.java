@@ -7,14 +7,21 @@ import game.entities.Unit;
 
 public class PineCone extends ProjectileBasedWeapon {
 	
+	public static final int ATTACK_RADIUS = 200;
+	public static final int RATE_OF_FIRE = 7;
+	public static final int DAMAGE = 40;
+	public static final int PROJECTILE_RADIUS = 13;
+	public static final int AOE = 100;
+	public static final int SPEED = 25;
+	
 	public PineCone() {
 		super();
-		this.setAttackRadius(200);
-		this.setRateOfFire(8);
-		this.setDamage(40);
-		this.setProjectileRadius(13);
-		this.setAoe(100);
-		this.setSpeed(25);
+		this.setAttackRadius(ATTACK_RADIUS);
+		this.setRateOfFire(RATE_OF_FIRE);
+		this.setDamage(DAMAGE);
+		this.setProjectileRadius(PROJECTILE_RADIUS);
+		this.setAoe(AOE);
+		this.setSpeed(SPEED);
 	}
 
 	@Override
