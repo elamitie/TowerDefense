@@ -33,30 +33,30 @@ public class Tower {
 		this.weapon.init(this);
 	}
 	
-	public void setAnimation(String direction) {
+	public void setAnimation(Direction direction) {
 		switch (direction) {
-		case "down":
+		case Down:
 			currentAnim = animations.get(0);
 			break;
-		case "left":
+		case Left:
 			currentAnim = animations.get(1);
 			break;
-		case "right":
+		case Right:
 			currentAnim = animations.get(2);
 			break;
-		case "up":
+		case Up:
 			currentAnim = animations.get(3);
 			break;
-		case "down-left":
+		case DownLeft:
 			currentAnim = animations.get(4);
 			break;
-		case "down-right":
+		case DownRight:
 			currentAnim = animations.get(5);
 			break;
-		case "up-right":
+		case UpRight:
 			currentAnim = animations.get(6);
 			break;
-		case "up-left":
+		case UpLeft:
 			currentAnim = animations.get(7);
 			break;
 		default:
@@ -72,8 +72,7 @@ public class Tower {
 		addTargets(gametime);
 	}
 	
-	private void addTargets(long gametime){
-		
+	private void addTargets(long gametime) {
 		for(Unit unit : Game.instance().getUnitManager().getUnitList()) {
 			if(distanceToUnit(unit) <= weapon.getAttackRadius()) {
 				targets.add(unit);
@@ -89,8 +88,7 @@ public class Tower {
 		}
 	}
 	
-	private void removeTargets(){
-		
+	private void removeTargets() {
 		for(int i = targets.size(); i > 0; i--){
 
 			//Remove unit from target list if died of other means
@@ -110,7 +108,7 @@ public class Tower {
 		}
 	}
 	
-	private float distanceToUnit(Unit unit){
+	private float distanceToUnit(Unit unit) {
 		return (float) Math.pow((Math.pow(unit.getY() - y, 2) + Math.pow(unit.getX() - x, 2)),.5f);
 	}
 	

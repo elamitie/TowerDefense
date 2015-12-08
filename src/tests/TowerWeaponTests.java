@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import game.entities.Direction;
 import game.entities.Tower;
 import game.entities.TowerManager;
 import game.utilities.JSONReader;
@@ -23,7 +24,7 @@ public class TowerWeaponTests {
 		reader.loadFiles();
 		
 		tower = new Tower(0, 0, reader.readTowerInfo("kernel"), new Kernel());
-		tower.setAnimation("up");
+		tower.setAnimation(Direction.Up);
 	}
 	
 	@Test
@@ -56,7 +57,7 @@ public class TowerWeaponTests {
 	public void validateKernelProperties() {
 		Kernel kernel = new Kernel();
 		Tower tower = new Tower(0, 0, reader.readTowerInfo("kernel"), kernel);
-		tower.setAnimation("up");
+		tower.setAnimation(Direction.Up);
 		
 		assertEquals(200, kernel.getAttackRadius());
 		assertEquals(2, kernel.getRateOfFire());
@@ -68,7 +69,7 @@ public class TowerWeaponTests {
 	public void validateNeedleProperties() {
 		PineNeedle needle = new PineNeedle();
 		Tower tower = new Tower(0, 0, reader.readTowerInfo("needle"), needle);
-		tower.setAnimation("up");
+		tower.setAnimation(Direction.Up);
 		
 		assertEquals(200, needle.getAttackRadius());
 		assertEquals(2, needle.getRateOfFire());
@@ -80,7 +81,7 @@ public class TowerWeaponTests {
 	public void validateWaterProperties() {
 		Water water = new Water();
 		Tower tower = new Tower(0, 0, reader.readTowerInfo("water"), water);
-		tower.setAnimation("up");
+		tower.setAnimation(Direction.Up);
 		
 		assertEquals(200, water.getAttackRadius());
 		assertEquals(6, water.getRateOfFire());

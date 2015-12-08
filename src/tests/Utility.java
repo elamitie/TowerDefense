@@ -1,11 +1,14 @@
 package tests;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
 
 import game.Game;
+import game.entities.Direction;
 import game.entities.WaveScroller;
 import game.utilities.Sound;
 import game.utilities.Waypoint;
@@ -42,8 +45,8 @@ public class Utility
 	public void waypointTest()
 	{
 		ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
-		waypoints.add(new Waypoint(150,"right"));
-		waypoints.add(new Waypoint(150,"up"));
+		waypoints.add(new Waypoint(150, Direction.Right));
+		waypoints.add(new Waypoint(150, Direction.Up));
 		waypoints.get(waypoints.size() - 2).setNextWaypoint(waypoints.get(waypoints.size()-1));
 		
 		assertEquals(waypoints.get(0).getNextWaypoint(), waypoints.get(waypoints.size() - 1));
@@ -53,8 +56,8 @@ public class Utility
 	public void waypointNullTest()
 	{
 		ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
-		waypoints.add(new Waypoint(150,"right"));
-		waypoints.add(new Waypoint(150,"up"));
+		waypoints.add(new Waypoint(150, Direction.Right));
+		waypoints.add(new Waypoint(150, Direction.Up));
 		waypoints.get(waypoints.size() - 2).setNextWaypoint(waypoints.get(waypoints.size()-1));
 		
 		assertNull(waypoints.get(waypoints.size() - 1).getNextWaypoint());

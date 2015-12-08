@@ -30,7 +30,7 @@ public class TowerManager {
 		return t;
 	}
 	
-	public Tower add(Tower tower, String direction) {
+	public Tower add(Tower tower, Direction direction) {
 		Tower t = tower;
 		t.setAnimation(direction);
 		towers.add(t);

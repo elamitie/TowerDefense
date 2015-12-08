@@ -30,24 +30,24 @@ public class UnitManager {
 		this.unitList = unitList;
 	}
 	
-	public void addUnit(Unit unit){
+	public void addUnit(Unit unit) {
 		unitList.add(unit);
 		
 		//If unit is supposed to fly give it the flyers path
-		if(unit.isCanFly()){
+		if(unit.isCanFly()) {
 			unit.setCurrentWaypoint(flyingWaypoint);
 		}
-		else{
+		else {
 			unit.setCurrentWaypoint(waypoints.get(0));
 		}
 		
 	}
 	
-	public void removeUnit(Unit unit){
+	public void removeUnit(Unit unit) {
 		unitList.remove(unit);
 	}
 	
-	public void update(long gameTime){
+	public void update(long gameTime) {
 		for(Unit unit : unitList){
 			unit.update(gameTime);
 		}
@@ -66,35 +66,34 @@ public class UnitManager {
 		}
 	}
 	
-	public void draw(Graphics2D g2d){
+	public void draw(Graphics2D g2d) {
 		for(Unit unit : unitList) {
 			unit.draw(g2d);
 		}
 	}
 	
-	private void createWaypoints(){
-		
+	private void createWaypoints() {
 		//Linked list style waypoint system
 		waypoints = new ArrayList<Waypoint>();
-		waypoints.add(new Waypoint(150,"right"));
-		waypoints.add(new Waypoint(150,"up"));
+		waypoints.add(new Waypoint(150, Direction.Up));
+		waypoints.add(new Waypoint(150, Direction.Up));
 		waypoints.get(waypoints.size() - 2).setNextWaypoint(waypoints.get(waypoints.size()-1));
-		waypoints.add(new Waypoint(250,"right"));
+		waypoints.add(new Waypoint(250, Direction.Right));
 		waypoints.get(waypoints.size() - 2).setNextWaypoint(waypoints.get(waypoints.size()-1));
-		waypoints.add(new Waypoint(250,"down"));
+		waypoints.add(new Waypoint(250, Direction.Down));
 		waypoints.get(waypoints.size() - 2).setNextWaypoint(waypoints.get(waypoints.size()-1));
-		waypoints.add(new Waypoint(600,"right"));
+		waypoints.add(new Waypoint(600, Direction.Right));
 		waypoints.get(waypoints.size() - 2).setNextWaypoint(waypoints.get(waypoints.size()-1));
-		waypoints.add(new Waypoint(375,"down"));
+		waypoints.add(new Waypoint(375, Direction.Down));
 		waypoints.get(waypoints.size() - 2).setNextWaypoint(waypoints.get(waypoints.size()-1));
-		waypoints.add(new Waypoint(700,"right"));
+		waypoints.add(new Waypoint(700, Direction.Right));
 		waypoints.get(waypoints.size() - 2).setNextWaypoint(waypoints.get(waypoints.size()-1));
-		waypoints.add(new Waypoint(50,"up"));
+		waypoints.add(new Waypoint(50, Direction.Up));
 		waypoints.get(waypoints.size() - 2).setNextWaypoint(waypoints.get(waypoints.size()-1));
-		waypoints.add(new Waypoint(955,"right"));
+		waypoints.add(new Waypoint(955, Direction.Right));
 		waypoints.get(waypoints.size() - 2).setNextWaypoint(waypoints.get(waypoints.size()-1));
 		
-		flyingWaypoint = new Waypoint(955,"right");
+		flyingWaypoint = new Waypoint(955, Direction.Right);
 	}
 	
 }

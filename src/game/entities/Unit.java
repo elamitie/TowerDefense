@@ -42,22 +42,21 @@ public class Unit
 		
 	}
 	
-	public void setAnimation(String direction)
-	{
-		
+	public void setAnimation(Direction direction)
+	{	
 		//Gives unit animation corresponding with move direction
 		switch(direction)
 		{
-			case "down":
+			case Down:
 				mCurrentAnimation = mAnimations.get(0);
 				break;
-			case "left":
+			case Left:
 				mCurrentAnimation = mAnimations.get(1);
 				break;
-			case "right":
+			case Right:
 				mCurrentAnimation = mAnimations.get(2);
 				break;
-			case "up":
+			case Up:
 				mCurrentAnimation = mAnimations.get(3);
 				break;
 			default:
@@ -156,42 +155,34 @@ public class Unit
 		
 	}
 	
-	private void move(){
-		
-		//Moves in proper direction according to waypoint orientation
+	private void move() {		
 		switch(mCurrentWaypoint.getDirection()){
-			case "right":
-				mX +=mSpeed;
-				
-				if(mX > mCurrentWaypoint.getPosition()){
-					setCurrentWaypoint(mCurrentWaypoint.getNextWaypoint());
-				}
-				
-				break;
-			case "left":
-				mX -=mSpeed;
-				
-				if(mX < mCurrentWaypoint.getPosition()){
-					setCurrentWaypoint(mCurrentWaypoint.getNextWaypoint());
-				}
-				
-				break;
-			case "up":
-				mY -=mSpeed;
-				
-				if(mY < mCurrentWaypoint.getPosition()){
-					setCurrentWaypoint(mCurrentWaypoint.getNextWaypoint());
-				}
-				
-				break;
-			case "down":
-				mY +=mSpeed;
-				
-				if(mY > mCurrentWaypoint.getPosition()){
-					setCurrentWaypoint(mCurrentWaypoint.getNextWaypoint());
-				}
-				
-				break;
+		case Right:
+			mX +=mSpeed;
+			if(mX > mCurrentWaypoint.getPosition()){
+				setCurrentWaypoint(mCurrentWaypoint.getNextWaypoint());
+			}
+			break;
+		case Left:
+			mX -=mSpeed;	
+			if(mX < mCurrentWaypoint.getPosition()){
+				setCurrentWaypoint(mCurrentWaypoint.getNextWaypoint());
+			}
+			break;
+		case Up:
+			mY -=mSpeed;	
+			if(mY < mCurrentWaypoint.getPosition()){
+				setCurrentWaypoint(mCurrentWaypoint.getNextWaypoint());
+			}
+			break;
+		case Down:
+			mY +=mSpeed;	
+			if(mY > mCurrentWaypoint.getPosition()){
+				setCurrentWaypoint(mCurrentWaypoint.getNextWaypoint());
+			}
+			break;
+		default:
+			break;
 		}
 	}
 	

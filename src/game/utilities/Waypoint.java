@@ -1,28 +1,30 @@
 package game.utilities;
 
+import game.entities.Direction;
+
 public class Waypoint {
 
 	private int mPos;//Either x or y pos to switch to next waypoint at
-	private String mDirection;//Direction to this waypoint
+	private Direction mDirection;//Direction to this waypoint
 	private Waypoint mNextWaypoint;//The next waypoint
 	
-	public Waypoint(int pos, String direction)
+	public Waypoint(int pos, Direction direction)
 	{
 		mPos = pos;
 		mDirection = direction;
 	}
 	
-	public Waypoint(int pos, String direction, Waypoint waypoint)
+	public Waypoint(int pos, Direction direction, Waypoint waypoint)
 	{
 		mPos = pos;
 		mDirection = direction;
 		mNextWaypoint = waypoint;
 	}
 	
-	public String getDirection() {
+	public Direction getDirection() {
 		return mDirection;
 	}
-	public void setDirection(String mDirection) {
+	public void setDirection(Direction mDirection) {
 		this.mDirection = mDirection;
 	}
 
