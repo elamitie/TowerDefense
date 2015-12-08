@@ -118,12 +118,6 @@ public class Tower {
 		weapon.draw(g2d);
 		g2d.drawImage(currentAnim.getCurrentFrame(), x, y, null);		
 		
-		//Draws range of the tower
-		//weapon.getRange()?
-		//g2d.drawOval((x + currentAnim.getCurrentFrame().getWidth() / 2) - weapon.getAttackRadius(), 
-		//			 (y + currentAnim.getCurrentFrame().getWidth() / 2) - weapon.getAttackRadius(), 
-		//			  weapon.getAttackRadius() * 2, 
-		//			  weapon.getAttackRadius() * 2);
 	}
 	
 	public int getX() { return x; }
