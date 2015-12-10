@@ -8,7 +8,7 @@ import game.entities.Unit;
 public class Kernel extends ProjectileBasedWeapon {
 	
 	public static final int ATTACK_RADIUS = 200;
-	public static final int RATE_OF_FIRE = 2;
+	public static final int RATE_OF_FIRE = 1;
 	public static final int DAMAGE = 10;
 	public static final int PROJECTILE_RADIUS = 4;
 	
