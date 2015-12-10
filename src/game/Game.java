@@ -3,7 +3,9 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -14,7 +16,10 @@ import game.entities.Unit;
 import game.entities.UnitManager;
 import game.entities.WaveScroller;
 import game.levelSystems.LevelLayout;
+import game.utilities.InputDevice;
 import game.utilities.JSONReader;
+import game.utilities.Keyboard;
+import game.utilities.Mouse;
 import game.utilities.Sound;
 import game.weapons.Kernel;
 import game.weapons.Lightning;
@@ -24,8 +29,7 @@ import game.weapons.Walnut;
 import game.weapons.Water;
 
 @SuppressWarnings("serial")
-public class Game extends JPanel
-{
+public class Game extends JPanel {
 	private JSONReader mFileReader;
 	private Sound mBackgroundSound;
 	
@@ -54,6 +58,10 @@ public class Game extends JPanel
 	
 	private Boolean mIsRunning;
 	
+	private Keyboard keyboard;
+	private Mouse mouse;
+	private List<InputDevice> inputs;
+	
 	private static Game instance;
 	
 	public static Game instance() {
@@ -75,19 +83,29 @@ public class Game extends JPanel
         this.setFocusable(true);
         this.setBackground(Color.black);
         
+        this.addKeyListener(keyboard);
+        this.addMouseListener(mouse);
+        this.addMouseMotionListener(mouse);
+        
 	    Thread gameThread = new Thread() 
-	      {
-	          @Override
-	          public void run()
-	          {
-	        	  gameLoop();
-	          }
-	      };
-	      gameThread.start();
+	    {
+	         @Override
+	         public void run()
+	         {
+	        	 gameLoop();
+	         }
+	    };
+	    gameThread.start();
 	}
 	
 	private void init()
-	{	  
+	{
+		inputs = new ArrayList<InputDevice>();
+		keyboard = new Keyboard();
+		mouse = new Mouse();
+		inputs.add(keyboard);
+		inputs.add(mouse);
+		
 		mFileReader = new JSONReader();
 		mUnitManager = new UnitManager();
 		mTowerManager = new TowerManager();
@@ -102,7 +120,7 @@ public class Game extends JPanel
 		
 		mIsRunning = true;
 		isSpawning = false;
-	  }
+	}
 	
 	public boolean getIsRunning()
 	{
@@ -112,32 +130,38 @@ public class Game extends JPanel
 	
 	private void loadContent()
 	{
-		  mFileReader.loadFiles();
+		mFileReader.loadFiles();
 		  
-		  mLevels = mFileReader.readLevelInfo();
+		mLevels = mFileReader.readLevelInfo();
 		  
-		  mScroller = new WaveScroller();
+		mScroller = new WaveScroller();
 		  
-		  mTowerManager.add(new Tower(197, 260, mFileReader.readTowerInfo("water"), new Water()), Direction.Up);
-		  mTowerManager.add(new Tower(197, 200, mFileReader.readTowerInfo("lightning"), new Lightning()), Direction.Up);
-		  mTowerManager.add(new Tower(320, 200, mFileReader.readTowerInfo("cone"), new PineCone()), Direction.Up);
-		  mTowerManager.add(new Tower(520, 320, mFileReader.readTowerInfo("needle"), new PineNeedle()), Direction.Up);
-		  mTowerManager.add(new Tower(645, 320, mFileReader.readTowerInfo("walnut"), new Walnut()), Direction.Up);
-		  mTowerManager.add(new Tower(770, 135, mFileReader.readTowerInfo("kernel"), new Kernel()), Direction.Up);
+		mTowerManager.add(new Tower(197, 260, mFileReader.readTowerInfo("water"), new Water()), Direction.Up);
+		mTowerManager.add(new Tower(197, 200, mFileReader.readTowerInfo("lightning"), new Lightning()), Direction.Up);
+		mTowerManager.add(new Tower(320, 200, mFileReader.readTowerInfo("cone"), new PineCone()), Direction.Up);
+		mTowerManager.add(new Tower(520, 320, mFileReader.readTowerInfo("needle"), new PineNeedle()), Direction.Up);
+		mTowerManager.add(new Tower(645, 320, mFileReader.readTowerInfo("walnut"), new Walnut()), Direction.Up);
+		mTowerManager.add(new Tower(770, 135, mFileReader.readTowerInfo("kernel"), new Kernel()), Direction.Up);
 	}    
 	  
 	  
 	public void update(long gameTime)
 	{
-	      mUnitManager.update(gameTime);
-	      mScroller.updateSpawner(gameTime, mWave);
-	      mTowerManager.update(gameTime);
+		if (Keyboard.pressed(KeyEvent.VK_ESCAPE)) System.exit(0);
+		
+	    mUnitManager.update(gameTime);
+	    mScroller.updateSpawner(gameTime, mWave);
+	    mTowerManager.update(gameTime);
 	      
-	      if(!isSpawning)
-	      {
-	    	  isSpawning = mScroller.startNewWave();
-	      }
-	      spawnWave(gameTime);
+	    if(!isSpawning)
+	    {
+	    	isSpawning = mScroller.startNewWave();
+	    }
+	    spawnWave(gameTime);
+	    
+	    for (InputDevice id : inputs) {
+	  		id.clear();
+	    }
 	}
 
 	public void spawnWave(long gameTime){
@@ -263,6 +287,5 @@ public class Game extends JPanel
 	public TowerManager getTowerManager() {
 		return mTowerManager;
 	}
-
 }
 
