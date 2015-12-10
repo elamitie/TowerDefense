@@ -332,7 +332,11 @@ public class Game extends JPanel {
 		{
 			mGameOver = true;
 		}
-		
+	}
+	
+	public Hud getHud()
+	{
+		return mHud;
 	}
 }
 
