@@ -73,16 +73,11 @@ public class Hud {
 	public void updateStats(Tower tower)
 	{
 		//Set data to tower data
-		//mKillData;
-		//mSpeedData;
-		//mCostData;
-		//mRangeData;
-		//mUpgradeData;
-		//mSellData;
-		
 		mKillData = String.valueOf(tower.getWeapon().getDamage());
 		mSpeedData = String.valueOf(tower.getWeapon().getRateOfFire());
 		mRangeData = String.valueOf(tower.getWeapon().getAttackRadius());
+		mCostData = String.valueOf(tower.getWeapon().getCost());
+		mSellData = String.valueOf(tower.getWeapon().getSellAmount());
 	}
 	
 	public void draw(Graphics2D g2d){

@@ -29,7 +29,9 @@ public class Lightning extends Weapon {
 		this.setAttackRadius(ATTACK_RADIUS);
 		this.setRateOfFire(RATE_OF_FIRE);
 		
-		setDamage(DAMAGE);
+		this.setDamage(DAMAGE);
+		this.setCost(200);
+		this.setSellAmount(getCost() / 2);
 		lightningTimer = 0;
 	}
 

@@ -18,6 +18,8 @@ public class Walnut extends ProjectileBasedWeapon {
 		this.setRateOfFire(RATE_OF_FIRE);
 		this.setDamage(DAMAGE);
 		this.setProjectileRadius(PROJECTILE_RADIUS);
+		this.setCost(150);
+		this.setSellAmount(getCost() / 2);
 	}
 
 	@Override

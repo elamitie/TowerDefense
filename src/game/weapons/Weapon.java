@@ -12,6 +12,9 @@ public abstract class Weapon {
 	private int attackRadius;
 	private int damage;
 	
+	private int cost;
+	private int sellAmount;
+	
 	protected Tower parent;
 	
 	public Weapon() {
@@ -53,6 +56,22 @@ public abstract class Weapon {
 	
 	public void reset() {
 		fireTimer = rateOfFire * 1000; // millis
+	}
+
+	public int getCost() {
+		return cost;
+	}
+
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
+
+	public int getSellAmount() {
+		return sellAmount;
+	}
+
+	public void setSellAmount(int sellAmount) {
+		this.sellAmount = sellAmount;
 	}
 
 }
