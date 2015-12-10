@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 
 import game.Game;
 import game.entities.Tower;
-import game.weapons.ProjectileBasedWeapon;
 
 public class Hud {
 
@@ -27,7 +26,9 @@ public class Hud {
 	private String mRangeData;
 	private String mUpgradeData;
 	private String mSellData;
-	
+	private int mSellUpgradeButtonsXOff;
+	private int mSellUpgradeButtonsYOff;
+	private Tower mTower;
 	
 	static final int TEXT_SIZE = 30;
 	
@@ -55,29 +56,37 @@ public class Hud {
 		mHudPosX = 0;
 		mHudPosY = 512;
 		
-		mCanSell = true;
-		mCanUpgrade = true;
+		mSellUpgradeButtonsXOff = mHudPosX + 710;
+		mSellUpgradeButtonsYOff = mHudPosY + 10;
+		
 		mIsSellDown= false;
 		mIsUpgradeDown = false;
 		
-		mKillData = " ";
-		mSpeedData = " ";
-		mCostData = " ";
-		mRangeData = " ";
-		mUpgradeData = " ";
-		mSellData = " ";
+		setDefaults();
 		
 		loadHud();
 	}
 	
+	public void update()
+	{
+		checkUpgradeClick();
+		checkSellClick();
+	}
+	
 	public void updateStats(Tower tower)
 	{
+		mTower = tower;
+		
 		//Set data to tower data
 		mKillData = String.valueOf(tower.getWeapon().getDamage());
 		mSpeedData = String.valueOf(tower.getWeapon().getRateOfFire());
 		mRangeData = String.valueOf(tower.getWeapon().getAttackRadius());
 		mCostData = String.valueOf(tower.getWeapon().getCost());
+		mUpgradeData = String.valueOf(tower.getWeapon().getUpgradeValue());
 		mSellData = String.valueOf(tower.getWeapon().getSellAmount());
+		
+		mCanSell = true;
+		mCanUpgrade = true;
 	}
 	
 	public void draw(Graphics2D g2d){
@@ -95,25 +104,25 @@ public class Hud {
 		
 		if(mCanUpgrade){
 			if(!mIsUpgradeDown)
-				g2d.drawImage(mUpgradeButtonUp, mHudPosX + 710, mHudPosY + 10, null);
+				g2d.drawImage(mUpgradeButtonUp, mSellUpgradeButtonsXOff, mSellUpgradeButtonsYOff, null);
 			else
-				g2d.drawImage(mUpgradeButtonDown, mHudPosX + 710, mHudPosY + 10, null);
+				g2d.drawImage(mUpgradeButtonDown, mSellUpgradeButtonsXOff, mSellUpgradeButtonsYOff, null);
 			
-			g2d.drawString(mUpgradeData, mHudPosX + 745, mHudPosY + 35);
+			g2d.drawString(mUpgradeData, mSellUpgradeButtonsXOff + 35, mSellUpgradeButtonsYOff + 25);
 		}
 		else
-			g2d.drawImage(mUpgradeButtonDisabled, mHudPosX + 710, mHudPosY + 10, null);
+			g2d.drawImage(mUpgradeButtonDisabled, mSellUpgradeButtonsXOff, mSellUpgradeButtonsYOff, null);
 		
 		if(mCanSell){
 			if(!mIsSellDown)
-				g2d.drawImage(mSellButtonUp, mHudPosX + 710, mHudPosY + 40, null);
+				g2d.drawImage(mSellButtonUp, mSellUpgradeButtonsXOff, mSellUpgradeButtonsYOff + 30, null);
 			else
-				g2d.drawImage(mSellButtonDown, mHudPosX + 710, mHudPosY + 40, null);
+				g2d.drawImage(mSellButtonDown, mSellUpgradeButtonsXOff, mSellUpgradeButtonsYOff + 30, null);
 			
-			g2d.drawString(mSellData, mHudPosX + 745, mHudPosY + 65);
+			g2d.drawString(mSellData, mSellUpgradeButtonsXOff + 35, mSellUpgradeButtonsYOff + 55);
 		}
 		else
-			g2d.drawImage(mSellButtonDisabled, mHudPosX + 710, mHudPosY + 40, null);
+			g2d.drawImage(mSellButtonDisabled, mSellUpgradeButtonsXOff, mSellUpgradeButtonsYOff + 30, null);
 		
 	}
 	
@@ -175,11 +184,42 @@ public class Hud {
 	}
 	
 	public void setDefaults() {
+		mTower = null;
 		mKillData = " ";
 		mSpeedData = " ";
 		mCostData = " ";
 		mRangeData = " ";
 		mUpgradeData = " ";
 		mSellData = " ";
+		
+		mCanSell = false;
+		mCanUpgrade = false;
+	}
+	
+	private void checkUpgradeClick(){
+		int radius = mUpgradeButtonUp.getWidth() / 2;
+		boolean intersects = Mouse.getXY().intersectsCircle(mSellUpgradeButtonsXOff + radius, mSellUpgradeButtonsYOff + radius, radius);
+		
+		if (Mouse.leftPressed && intersects) {
+			if(mTower != null && Game.instance().getMoney() >= mTower.getWeapon().getUpgradeValue()){
+				mTower.getWeapon().upgrade();
+				Game.instance().setMoney(Game.instance().getMoney() - mTower.getWeapon().getUpgradeValue());
+				mTower.getWeapon().setCost(mTower.getWeapon().getCost() + mTower.getWeapon().getUpgradeValue());
+				updateStats(mTower);
+			}
+		}
+	}
+	
+	private void checkSellClick(){
+		int radius = mSellButtonUp.getWidth() / 2;
+		boolean intersects = Mouse.getXY().intersectsCircle(mSellUpgradeButtonsXOff + radius, mSellUpgradeButtonsYOff + 30 + radius, radius);
+		
+		if (Mouse.leftPressed && intersects) {
+			if(mTower != null){
+				Game.instance().setMoney(Game.instance().getMoney() + mTower.getWeapon().getSellAmount());
+				Game.instance().getTowerManager().remove(mTower);
+				setDefaults();
+			}
+		}
 	}
 }

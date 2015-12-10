@@ -21,7 +21,6 @@ public class PineNeedle extends ProjectileBasedWeapon {
 		this.setDamage(DAMAGE);
 		this.setAntiAir(true);
 		this.setCost(150);
-		this.setSellAmount(getCost() / 2);
 	}
 
 	@Override

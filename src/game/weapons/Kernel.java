@@ -19,7 +19,6 @@ public class Kernel extends ProjectileBasedWeapon {
 		this.setDamage(DAMAGE);
 		this.setProjectileRadius(PROJECTILE_RADIUS);
 		this.setCost(100);
-		this.setSellAmount(getCost() / 2);
 	}
 
 	@Override

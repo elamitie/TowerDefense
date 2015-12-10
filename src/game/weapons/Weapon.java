@@ -13,7 +13,6 @@ public abstract class Weapon {
 	private int damage;
 	
 	private int cost;
-	private int sellAmount;
 	
 	protected Tower parent;
 	
@@ -29,7 +28,21 @@ public abstract class Weapon {
 	public abstract void update(long gametime);
 	public abstract void draw(Graphics2D g2d);
 	public abstract double getFiringAngle();
+	
+	public int getUpgradeValue(){ return cost / 3; } ;
 
+	public void upgrade(){
+		damage += 2;
+		
+		if(rateOfFire > 1)
+		{
+			rateOfFire--;
+		}
+		else
+			damage += 2;
+		
+	}
+	
 	public int getRateOfFire() {
 		return rateOfFire;
 	}
@@ -67,11 +80,7 @@ public abstract class Weapon {
 	}
 
 	public int getSellAmount() {
-		return sellAmount;
-	}
-
-	public void setSellAmount(int sellAmount) {
-		this.sellAmount = sellAmount;
+		return cost / 2;
 	}
 
 }

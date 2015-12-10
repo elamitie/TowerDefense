@@ -31,7 +31,6 @@ public class Lightning extends Weapon {
 		
 		this.setDamage(DAMAGE);
 		this.setCost(200);
-		this.setSellAmount(getCost() / 2);
 		lightningTimer = 0;
 	}
 

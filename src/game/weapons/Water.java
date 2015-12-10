@@ -25,7 +25,6 @@ public class Water extends ProjectileBasedWeapon {
 		this.setSlow(SLOW);
 		this.setSlowTime(SLOW_TIME);
 		this.setCost(50);
-		this.setSellAmount(getCost() / 2);
 	}
 
 	@Override

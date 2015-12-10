@@ -23,7 +23,6 @@ public class PineCone extends ProjectileBasedWeapon {
 		this.setAoe(AOE);
 		this.setSpeed(SPEED);
 		this.setCost(250);
-		this.setSellAmount(getCost() / 2);
 	}
 
 	@Override

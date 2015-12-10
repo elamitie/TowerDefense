@@ -46,8 +46,8 @@ public class Game extends JPanel {
     public static final int WALKING_START_POINT = 375;
     public static final int FLYING_START_POINT = 270;
     public static final int UNIT_COUNT = 7;
-    public static final int STARTING_MONEY = 100;
-    public static final int STARTING_LIVES = 5;
+    public static final int STARTING_MONEY = 1000;
+    public static final int STARTING_LIVES = 20;
     
     
     private int mTimeBetweenSpawns = 500;
@@ -174,7 +174,8 @@ public class Game extends JPanel {
 		    mUnitManager.update(gameTime);
 		    mScroller.updateSpawner(gameTime, mWave);
 		    mTowerManager.update(gameTime);
-		      
+		    mHud.update();
+		    
 		    if(!isSpawning)
 		    {
 		    	isSpawning = mScroller.startNewWave();

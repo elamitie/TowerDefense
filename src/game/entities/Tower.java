@@ -86,7 +86,7 @@ public class Tower{
 			// Submit data to HUD
 			Game.instance().getHud().updateStats(this);
 		}
-		else if (Mouse.leftPressed && !intersects) {
+		else if (Mouse.leftPressed && !intersects && Mouse.getY() < 512) {
 			if (selected) {
 				Game.instance().getHud().setDefaults();
 			}
