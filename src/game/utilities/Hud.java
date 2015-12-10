@@ -1,5 +1,6 @@
 package game.utilities;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -14,6 +15,10 @@ public class Hud {
 
 	private int mHudPosX;
 	private int mHudPosY;
+	private boolean mCanSell;
+	private boolean mCanUpgrade;
+	private boolean mIsSellDown;
+	private boolean mIsUpgradeDown;
 	
 	static final int TEXT_SIZE = 30;
 	
@@ -23,12 +28,28 @@ public class Hud {
 	private static final String HUD_USER_MENU_PATH = "images/HUD-UserMenu.png";
 	private BufferedImage mHudTowerMenu;
 	private static final String HUD_TOWER_MENU_PATH = "images/HUD-TowerMenu.png";
-	
+	private BufferedImage mSellButtonUp;
+	private static final String HUD_SELL_BUTTON_UP_PATH = "images/sellButtonUp.png";
+	private BufferedImage mSellButtonDown;
+	private static final String HUD_SELL_BUTTON_DOWN_PATH = "images/sellButtonDown.png";
+	private BufferedImage mSellButtonDisabled;
+	private static final String HUD_SELL_BUTTON_DISABLED_PATH = "images/sellButtonDisabled.png";
+	private BufferedImage mUpgradeButtonUp;
+	private static final String HUD_UPGRADE_BUTTON_UP_PATH = "images/upgradeButtonUp.png";
+	private BufferedImage mUpgradeButtonDown;
+	private static final String HUD_UPGRADE_BUTTON_DOWN_PATH = "images/upgradeButtonDown.png";
+	private BufferedImage mUpgradeButtonDisabled;
+	private static final String HUD_UPGRADE_BUTTON_DISABLED_PATH = "images/upgradeButtonDisabled.png";
 	
 	public Hud(){
 		
 		mHudPosX = 0;
 		mHudPosY = 512;
+		
+		mCanSell = true;
+		mCanUpgrade = true;
+		mIsSellDown= false;
+		mIsUpgradeDown = false;
 		
 		loadHud();
 	}
@@ -37,9 +58,37 @@ public class Hud {
 		g2d.drawImage(mHudFrame, mHudPosX, mHudPosY, null);
 		g2d.drawImage(mHudUserMenu, mHudPosX + 675, mHudPosY, null);
 		g2d.setFont(new Font("Andy", Font.PLAIN, TEXT_SIZE));
-		g2d.drawString(Integer.toString(Game.instance().getLives()), mHudPosX + 845, mHudPosY + 30);
-		g2d.drawString(Integer.toString(Game.instance().getMoney()), mHudPosX + 845, mHudPosY + 60);
+		g2d.setColor(new Color(255,255,255));
+		g2d.drawString(Integer.toString(Game.instance().getLives()), mHudPosX + 845, mHudPosY + 35);
+		g2d.drawString(Integer.toString(Game.instance().getMoney()), mHudPosX + 845, mHudPosY + 65);
 		g2d.drawImage(mHudTowerMenu, mHudPosX + 445, mHudPosY, null);
+		g2d.drawString("40", mHudPosX + 500, mHudPosY + 35);
+		g2d.drawString("40", mHudPosX + 630, mHudPosY + 35);
+		g2d.drawString("40", mHudPosX + 500, mHudPosY + 65);
+		g2d.drawString("40", mHudPosX + 630, mHudPosY + 65);
+		
+		if(mCanUpgrade){
+			if(!mIsUpgradeDown)
+				g2d.drawImage(mUpgradeButtonUp, mHudPosX + 710, mHudPosY + 10, null);
+			else
+				g2d.drawImage(mUpgradeButtonDown, mHudPosX + 710, mHudPosY + 10, null);
+			
+			g2d.drawString("150", mHudPosX + 745, mHudPosY + 35);
+		}
+		else
+			g2d.drawImage(mUpgradeButtonDisabled, mHudPosX + 710, mHudPosY + 10, null);
+		
+		if(mCanSell){
+			if(!mIsSellDown)
+				g2d.drawImage(mSellButtonUp, mHudPosX + 710, mHudPosY + 40, null);
+			else
+				g2d.drawImage(mSellButtonDown, mHudPosX + 710, mHudPosY + 40, null);
+			
+			g2d.drawString("150", mHudPosX + 745, mHudPosY + 65);
+		}
+		else
+			g2d.drawImage(mSellButtonDisabled, mHudPosX + 710, mHudPosY + 40, null);
+		
 	}
 	
 	private void loadHud(){
@@ -62,5 +111,40 @@ public class Hud {
 			e.printStackTrace();
 		}
 		
+		try {
+			mSellButtonUp = ImageIO.read(new File(HUD_SELL_BUTTON_UP_PATH));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			mSellButtonDown = ImageIO.read(new File(HUD_SELL_BUTTON_DOWN_PATH));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			mSellButtonDisabled = ImageIO.read(new File(HUD_SELL_BUTTON_DISABLED_PATH));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			mUpgradeButtonUp = ImageIO.read(new File(HUD_UPGRADE_BUTTON_UP_PATH));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			mUpgradeButtonDown = ImageIO.read(new File(HUD_UPGRADE_BUTTON_DOWN_PATH));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			mUpgradeButtonDisabled = ImageIO.read(new File(HUD_UPGRADE_BUTTON_DISABLED_PATH));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
