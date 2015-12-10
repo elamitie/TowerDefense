@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -29,6 +31,7 @@ public class Hud {
 	private int mSellUpgradeButtonsXOff;
 	private int mSellUpgradeButtonsYOff;
 	private Tower mTower;
+	private List<HudTower> mHudTowers;
 	
 	static final int TEXT_SIZE = 30;
 	
@@ -71,6 +74,11 @@ public class Hud {
 	{
 		checkUpgradeClick();
 		checkSellClick();
+		
+		for(HudTower hudTower : mHudTowers){
+			hudTower.update();
+		}
+		
 	}
 	
 	public void updateStats(Tower tower)
@@ -123,6 +131,11 @@ public class Hud {
 		}
 		else
 			g2d.drawImage(mSellButtonDisabled, mSellUpgradeButtonsXOff, mSellUpgradeButtonsYOff + 30, null);
+	
+		
+		for(HudTower hudTower : mHudTowers){
+			hudTower.draw(g2d);
+		}
 		
 	}
 	
@@ -181,6 +194,16 @@ public class Hud {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		mHudTowers = new ArrayList<HudTower>();
+		
+		mHudTowers.add(new HudTower("kernel", 15, 525));
+		mHudTowers.add(new HudTower("walnut", 85, 525));
+		mHudTowers.add(new HudTower("needle", 155, 525));
+		mHudTowers.add(new HudTower("cone", 230, 525));
+		mHudTowers.add(new HudTower("lightning", 305, 525));
+		mHudTowers.add(new HudTower("water", 375, 525));
+		
 	}
 	
 	public void setDefaults() {

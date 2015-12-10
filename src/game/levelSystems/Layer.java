@@ -61,6 +61,7 @@ public class Layer
 			if(mTiles.get(i) != null)
 			{
 				g2d.drawImage(mTiles.get(i), x, y, null);
+				
 			}
 		}
 		

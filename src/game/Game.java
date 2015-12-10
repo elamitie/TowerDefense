@@ -123,7 +123,6 @@ public class Game extends JPanel {
 		mFileReader = new JSONReader();
 		mUnitManager = new UnitManager();
 		mTowerManager = new TowerManager();
-		mHud = new Hud();
 		
 		try {
 			mLoseScreen = ImageIO.read(new File("images/you-lose.jpg"));
@@ -163,6 +162,8 @@ public class Game extends JPanel {
 		mTowerManager.add(new Tower(520, 320, mFileReader.readTowerInfo("needle"), new PineNeedle()), Direction.Up);
 		mTowerManager.add(new Tower(645, 320, mFileReader.readTowerInfo("walnut"), new Walnut()), Direction.Up);
 		mTowerManager.add(new Tower(770, 135, mFileReader.readTowerInfo("kernel"), new Kernel()), Direction.Up);
+		
+		mHud = new Hud();
 	}    
 	  
 		
@@ -314,6 +315,11 @@ public class Game extends JPanel {
 		return mTowerManager;
 	}
 
+	public JSONReader getFileReader()
+	{
+		return mFileReader;
+	}
+	
 	public int getMoney() {
 		return mMoney;
 	}
