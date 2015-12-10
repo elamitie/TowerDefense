@@ -80,16 +80,9 @@ public class Hud {
 		//mUpgradeData;
 		//mSellData;
 		
-		if (tower.getWeapon() instanceof ProjectileBasedWeapon) {
-			ProjectileBasedWeapon pbw = (ProjectileBasedWeapon)tower.getWeapon();
-			mSpeedData = String.valueOf(pbw.getRateOfFire());
-			mRangeData = String.valueOf(pbw.getAttackRadius());
-		} 
-		else {
-			mSpeedData = " ";
-			mRangeData = " ";
-		}
 		mKillData = String.valueOf(tower.getWeapon().getDamage());
+		mSpeedData = String.valueOf(tower.getWeapon().getRateOfFire());
+		mRangeData = String.valueOf(tower.getWeapon().getAttackRadius());
 	}
 	
 	public void draw(Graphics2D g2d){

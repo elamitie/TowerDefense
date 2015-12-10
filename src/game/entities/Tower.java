@@ -87,9 +87,10 @@ public class Tower{
 			Game.instance().getHud().updateStats(this);
 		}
 		else if (Mouse.leftPressed && !intersects) {
-			// Deselect if clicked off of the tower
+			if (selected) {
+				Game.instance().getHud().setDefaults();
+			}
 			selected = false;
-			// Game.instance().getHud().setDefaults();
 		}
 		
 		currentAnim.update(gametime);
