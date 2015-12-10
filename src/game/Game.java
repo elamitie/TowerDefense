@@ -26,12 +26,7 @@ import game.utilities.JSONReader;
 import game.utilities.Keyboard;
 import game.utilities.Mouse;
 import game.utilities.Sound;
-import game.weapons.Kernel;
 import game.weapons.Lightning;
-import game.weapons.PineCone;
-import game.weapons.PineNeedle;
-import game.weapons.Walnut;
-import game.weapons.Water;
 
 @SuppressWarnings("serial")
 public class Game extends JPanel {
@@ -157,12 +152,12 @@ public class Game extends JPanel {
 		  
 		mScroller = new WaveScroller();
 		  
-		mTowerManager.add(new Tower(197, 260, mFileReader.readTowerInfo("water"), new Water()), Direction.Up);
+		//mTowerManager.add(new Tower(197, 260, mFileReader.readTowerInfo("water"), new Water()), Direction.Up);
 		mTowerManager.add(new Tower(197, 200, mFileReader.readTowerInfo("lightning"), new Lightning()), Direction.Up);
-		mTowerManager.add(new Tower(320, 200, mFileReader.readTowerInfo("cone"), new PineCone()), Direction.Up);
-		mTowerManager.add(new Tower(520, 320, mFileReader.readTowerInfo("needle"), new PineNeedle()), Direction.Up);
-		mTowerManager.add(new Tower(645, 320, mFileReader.readTowerInfo("walnut"), new Walnut()), Direction.Up);
-		mTowerManager.add(new Tower(770, 135, mFileReader.readTowerInfo("kernel"), new Kernel()), Direction.Up);
+		//mTowerManager.add(new Tower(320, 200, mFileReader.readTowerInfo("cone"), new PineCone()), Direction.Up);
+		//mTowerManager.add(new Tower(520, 320, mFileReader.readTowerInfo("needle"), new PineNeedle()), Direction.Up);
+		//mTowerManager.add(new Tower(645, 320, mFileReader.readTowerInfo("walnut"), new Walnut()), Direction.Up);
+		//mTowerManager.add(new Tower(770, 135, mFileReader.readTowerInfo("kernel"), new Kernel()), Direction.Up);
 	}    
 	  
 		
