@@ -10,6 +10,7 @@ public abstract class Weapon {
 	public int fireTimer;
 	private int rateOfFire;
 	private int attackRadius;
+	private int damage;
 	
 	protected Tower parent;
 	
@@ -42,7 +43,16 @@ public abstract class Weapon {
 		this.attackRadius = attackRadius;
 	}
 	
+	public int getDamage() {
+		return damage;
+	}
+	
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+	
 	public void reset() {
 		fireTimer = rateOfFire * 1000; // millis
 	}
+
 }

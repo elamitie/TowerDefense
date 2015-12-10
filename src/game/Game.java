@@ -334,8 +334,7 @@ public class Game extends JPanel {
 		}
 	}
 	
-	public Hud getHud()
-	{
+	public Hud getHud() {
 		return mHud;
 	}
 }

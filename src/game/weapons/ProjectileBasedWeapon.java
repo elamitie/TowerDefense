@@ -11,7 +11,6 @@ public class ProjectileBasedWeapon extends Weapon {
 
 	protected List<Projectile> projectiles;
 	private int projectileRadius;
-	private int damage;
 	private int speed;
 	
 	// Special weapon specific data
@@ -22,8 +21,8 @@ public class ProjectileBasedWeapon extends Weapon {
 	
 	public ProjectileBasedWeapon() {
 		projectiles = new ArrayList<Projectile>();
+		this.setDamage(0);
 		this.projectileRadius = 0;
-		this.damage = 0;
 		this.aoe = 0;
 		this.slow = 0;
 		this.slowTime = 0;
@@ -88,8 +87,8 @@ public class ProjectileBasedWeapon extends Weapon {
 								explode(p);
 							}
 							else {
-								if (damage != 0) 
-									p.getTarget().inflictDamage(damage);
+								if (getDamage() != 0) 
+									p.getTarget().inflictDamage(getDamage());
 								
 								if (slow != 0 && slowTime != 0) 
 									p.getTarget().applySlow(slow, slowTime);
@@ -116,15 +115,13 @@ public class ProjectileBasedWeapon extends Weapon {
 	private void explode(Projectile p){			
 		for(Unit unit : Game.instance().getUnitManager().getUnitList()) {
 			if(p.distanceToUnit(unit) <= aoe) {
-				unit.inflictDamage(damage);
+				unit.inflictDamage(getDamage());
 			}
 		}
 	}
 	
 	public int getProjectileRadius() { return projectileRadius; }
 	public void setProjectileRadius(int radius) { this.projectileRadius = radius; }
-	public int getDamage() { return damage; }
-	public void setDamage(int damage) {	this.damage = damage; }
 	public int getAoe() { return aoe; }
 	public void setAoe(int aoe) { this.aoe = aoe; }
 	public float getSlow() { return slow; }

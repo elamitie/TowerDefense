@@ -82,10 +82,14 @@ public class Tower{
 			
 			// Deselect the rest of the towers
 			deselectOthers();
+			
+			// Submit data to HUD
+			Game.instance().getHud().updateStats(this);
 		}
 		else if (Mouse.leftPressed && !intersects) {
 			// Deselect if clicked off of the tower
 			selected = false;
+			// Game.instance().getHud().setDefaults();
 		}
 		
 		currentAnim.update(gametime);
@@ -163,6 +167,8 @@ public class Tower{
 	public int getHalfWidth() { return getWidth() / 2; }
 	public int getHalfHeight() { return getHeight() / 2; }
 	public Animation getCurrentAnim() { return currentAnim; }
+	
+	public Weapon getWeapon() { return this.weapon; }
 	
 	public void setParent(TowerManager parent) { this.parent = parent; }
 

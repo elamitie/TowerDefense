@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import game.Game;
 import game.entities.Tower;
+import game.weapons.ProjectileBasedWeapon;
 
 public class Hud {
 
@@ -78,6 +79,16 @@ public class Hud {
 		//mRangeData;
 		//mUpgradeData;
 		//mSellData;
+		
+		if (tower.getWeapon() instanceof ProjectileBasedWeapon) {
+			ProjectileBasedWeapon pbw = (ProjectileBasedWeapon)tower.getWeapon();
+			mKillData = String.valueOf(pbw.getDamage());
+			mSpeedData = String.valueOf(pbw.getRateOfFire());
+			mRangeData = String.valueOf(pbw.getAttackRadius());
+		}
+		else {
+			
+		}
 	}
 	
 	public void draw(Graphics2D g2d){
@@ -172,5 +183,14 @@ public class Hud {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void setDefaults() {
+		mKillData = " ";
+		mSpeedData = " ";
+		mCostData = " ";
+		mRangeData = " ";
+		mUpgradeData = " ";
+		mSellData = " ";
 	}
 }

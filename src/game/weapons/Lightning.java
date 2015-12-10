@@ -21,7 +21,6 @@ public class Lightning extends Weapon {
 	public static final int DAMAGE = 15;
 	
 	private List<Unit> hitList;
-	private int damage;
 	private long lightningTimer;
 	
 	public Lightning() {
@@ -30,7 +29,7 @@ public class Lightning extends Weapon {
 		this.setAttackRadius(ATTACK_RADIUS);
 		this.setRateOfFire(RATE_OF_FIRE);
 		
-		damage = DAMAGE;
+		setDamage(DAMAGE);
 		lightningTimer = 0;
 	}
 
@@ -42,13 +41,13 @@ public class Lightning extends Weapon {
 		hitList.clear();
 		
 		hitList.add(unit);
-		unit.inflictDamage(damage);
+		unit.inflictDamage(getDamage());
 		
 		for(int i = 0; i < MAX_ARCS; i++){
 			for(Unit potentialArc : Game.instance().getUnitManager().getUnitList()){
 				if(!hitList.contains(potentialArc) && rangeCheck(potentialArc)){
 					hitList.add(potentialArc);
-					potentialArc.inflictDamage(damage);
+					potentialArc.inflictDamage(getDamage());
 				}
 			}
 		}
