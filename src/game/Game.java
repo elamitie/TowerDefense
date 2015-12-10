@@ -47,7 +47,7 @@ public class Game extends JPanel {
     public static final int FLYING_START_POINT = 270;
     public static final int UNIT_COUNT = 7;
     public static final int STARTING_MONEY = 100;
-    public static final int STARTING_LIVES = 0;
+    public static final int STARTING_LIVES = 5;
     
     
     private int mTimeBetweenSpawns = 500;
@@ -319,7 +319,6 @@ public class Game extends JPanel {
 
 	public void setMoney(int money) {
 		mMoney = money;
-		System.out.println("Current Money: " + mMoney);
 	}
 
 	public int getLives() {
@@ -328,11 +327,9 @@ public class Game extends JPanel {
 
 	public void setLives(int lives) {
 		mLives = lives;
-		System.out.println("Current Lives: " + mLives);
 		//Lose game
 		if(mLives <= 0)
 		{
-			System.out.println("Game Over!");
 			mGameOver = true;
 		}
 		
