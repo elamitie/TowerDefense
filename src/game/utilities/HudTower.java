@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import game.Game;
 import game.entities.Direction;
 import game.entities.Tower;
+import game.levelSystems.Layer;
 import game.weapons.Kernel;
 import game.weapons.Lightning;
 import game.weapons.PineCone;
@@ -21,7 +22,6 @@ public class HudTower {
 	private boolean mIsSelected;
 	private int mX, mY;
 	private JSONReader mReader;
-	
 	
 	public HudTower(String name, int x, int y){
 		
@@ -70,8 +70,10 @@ public class HudTower {
 		Weapon weapon = null;
 		
 		if (Mouse.leftPressed) {
-			if(intersects)
+			if(intersects) {
 				mIsSelected = !mIsSelected;
+				Layer.showMarkers = true;
+			}
 			else if(mIsSelected && Mouse.getY() < 450)
 			{
 				switch(mName){
@@ -96,11 +98,16 @@ public class HudTower {
 					
 				}
 				
-				if(Game.instance().getMoney() >= weapon.getCost()){
-					Game.instance().getTowerManager().add(new Tower(Mouse.getX() - mImage.getWidth() / 2, Mouse.getY() - mImage.getWidth() / 2, mReader.readTowerInfo(mName), weapon), Direction.Up);
+				if(Game.instance().getMoney() >= weapon.getCost()) {
+					
+					int x = (int)Util.snapToGrid((int)Mouse.getX(), 32);
+					int y = (int)Util.snapToGrid((int)Mouse.getY(), 32);
+					
+					Game.instance().getTowerManager().add(new Tower(x, y, mReader.readTowerInfo(mName), weapon), Direction.Up);
 					Game.instance().setMoney(Game.instance().getMoney() - weapon.getCost());
 				}
 				mIsSelected = false;
+				Layer.showMarkers = false;
 			}
 
 		}

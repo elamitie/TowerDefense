@@ -277,10 +277,6 @@ public class JSONReader
 						
 			Layer layer = new Layer(tiles, x, y, layerWidth, layerHeight);
 			
-			for (Entry<Integer, Boolean> e : buildableTiles.entrySet()) {
-				System.out.println("Key: " + e.getKey() + " Val: " + e.getValue());
-			}
-			
 			switch (layerName)
 			{
 			case "Base":
