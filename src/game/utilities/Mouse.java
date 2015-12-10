@@ -43,6 +43,10 @@ public class Mouse extends MouseAdapter implements InputDevice {
 		return y;
 	}
 	
+	public static Point2i getXY() {
+		return new Point2i(x, y);
+	}
+	
 	public void mousePressed(MouseEvent e) {
 		switch (e.getButton()) {
 		case Mouse.LEFT_BUTTON:
