@@ -2,6 +2,7 @@ package game.levelSystems;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Layer 
 {
@@ -13,6 +14,7 @@ public class Layer
 	private int mY;
 	
 	private ArrayList<BufferedImage> mTiles;
+	private ArrayList<Boolean> buildables;
 	
 	public Layer(ArrayList<BufferedImage> tiles, int x, int y, int w, int h)
 	{
@@ -58,13 +60,20 @@ public class Layer
 			int x = mX + (col * mTileWidth);
 			int y = mY + (row * mTileHeight);
 			
+			System.out.println(i);
 			if(mTiles.get(i) != null)
 			{
 				g2d.drawImage(mTiles.get(i), x, y, null);
-				
+			}
+			if (buildables != null) {
+				if (buildables.get(i) == true) {
+					g2d.fillOval(x + 5, y + 5, 10, 10);
+				}
 			}
 		}
-		
-		
+	}
+
+	public void setMarkers(ArrayList<Boolean> markers) {
+		this.buildables = markers;
 	}
 }

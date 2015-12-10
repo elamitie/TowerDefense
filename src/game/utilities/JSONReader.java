@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -26,12 +28,14 @@ public class JSONReader
 	private JsonObject mMonstersFileInfo;
 	private JsonObject mTileFileInfo;
 	private HashMap<String, BufferedImage> mSpriteSheets;
+	private HashMap<Integer, Boolean> buildableTiles;
 	HashMap<Integer, BufferedImage> mTileSet;
 
 	public JSONReader()
 	{
 		mSpriteSheets = new HashMap<String, BufferedImage>();
 		mTileSet = new HashMap<Integer, BufferedImage>();
+		buildableTiles = new HashMap<Integer, Boolean>();
 	}
 	
 	public void loadFiles()
@@ -206,14 +210,30 @@ public class JSONReader
 			int tileHeight = setInfo.get("tileheight").getAsInt();
 			String fileName = setInfo.get("image").getAsString();
 			
+			if (setInfo.has("tileproperties")) {
+				JsonObject properties;
+				properties = setInfo.get("tileproperties").getAsJsonObject();
+				
+				for (Entry<String, JsonElement> entry : properties.entrySet()) {
+					int gid = Integer.parseInt(entry.getKey());
+					JsonObject buildable = entry.getValue().getAsJsonObject();
+					boolean canBuild = buildable.get("buildable").getAsBoolean();
+					buildableTiles.put(gid, canBuild);
+				}
+			}
+			
 			for (int j = 0; j < imageHeight / tileHeight; ++j)
 			{
 				for (int k = 0; k < imageWidth / tileWidth; ++k)
 				{
 					int x = k * tileWidth;
 					int y = j * tileHeight;
-										
-					mTileSet.put(firstGID + k + j * imageWidth / tileWidth , mSpriteSheets.get(fileName).getSubimage(x, y, tileWidth, tileHeight));
+								
+					int key = firstGID + k + j * imageWidth / tileWidth;
+					mTileSet.put(key, mSpriteSheets.get(fileName).getSubimage(x, y, tileWidth, tileHeight));
+					if (buildableTiles.get(key) == null) {
+						buildableTiles.put(key, false);
+					}
 				}
 			}
 		}
@@ -232,6 +252,7 @@ public class JSONReader
 			JsonObject currentLayer = levelLayers.get(i).getAsJsonObject();
 			JsonArray data = currentLayer.get("data").getAsJsonArray();
 			ArrayList<BufferedImage> tiles = new ArrayList<BufferedImage>();
+			ArrayList<Boolean> buildables = new ArrayList<Boolean>();
 			
 			for (int j = 0; j < data.size(); ++j)
 			{
@@ -244,6 +265,7 @@ public class JSONReader
 				{
 					tiles.add(mTileSet.get(73));
 				}
+				buildables.add(buildableTiles.get(key));
 			}
 			
 			String layerName = currentLayer.get("name").getAsString();
@@ -255,9 +277,14 @@ public class JSONReader
 						
 			Layer layer = new Layer(tiles, x, y, layerWidth, layerHeight);
 			
+			for (Entry<Integer, Boolean> e : buildableTiles.entrySet()) {
+				System.out.println("Key: " + e.getKey() + " Val: " + e.getValue());
+			}
+			
 			switch (layerName)
 			{
 			case "Base":
+				layer.setMarkers(buildables);
 				newLevel.addLayer(layer, 0);
 				break;
 			case "Tree":
