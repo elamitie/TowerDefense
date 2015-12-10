@@ -36,9 +36,9 @@ public class Hud {
 	public void draw(Graphics2D g2d){
 		g2d.drawImage(mHudFrame, mHudPosX, mHudPosY, null);
 		g2d.drawImage(mHudUserMenu, mHudPosX + 675, mHudPosY, null);
-		g2d.setFont(new Font("Andy", Font.PLAIN, ));
-		g2d.drawString(Integer.toString(Game.instance().getLives()), mHudPosX + 825, mHudPosY + 10);
-		g2d.drawString(Integer.toString(Game.instance().getMoney()), mHudPosX + 825, mHudPosY + 35);
+		g2d.setFont(new Font("Andy", Font.PLAIN, TEXT_SIZE));
+		g2d.drawString(Integer.toString(Game.instance().getLives()), mHudPosX + 845, mHudPosY + 30);
+		g2d.drawString(Integer.toString(Game.instance().getMoney()), mHudPosX + 845, mHudPosY + 60);
 		g2d.drawImage(mHudTowerMenu, mHudPosX + 445, mHudPosY, null);
 	}
 	
