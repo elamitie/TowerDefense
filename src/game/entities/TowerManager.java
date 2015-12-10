@@ -26,6 +26,7 @@ public class TowerManager {
 	
 	public Tower add(Tower tower) {
 		Tower t = tower;
+		t.setParent(this);
 		towers.add(t);
 		return t;
 	}
@@ -33,6 +34,7 @@ public class TowerManager {
 	public Tower add(Tower tower, Direction direction) {
 		Tower t = tower;
 		t.setAnimation(direction);
+		t.setParent(this);
 		towers.add(t);
 		return t;
 	}
