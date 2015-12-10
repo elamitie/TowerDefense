@@ -46,7 +46,7 @@ public class Game extends JPanel {
     public static final int WALKING_START_POINT = 375;
     public static final int FLYING_START_POINT = 270;
     public static final int UNIT_COUNT = 7;
-    public static final int STARTING_MONEY = 1000;
+    public static final int STARTING_MONEY = 2500;
     public static final int STARTING_LIVES = 20;
     
     
@@ -155,13 +155,6 @@ public class Game extends JPanel {
 		mLevels = mFileReader.readLevelInfo();
 		  
 		mScroller = new WaveScroller();
-		  
-		mTowerManager.add(new Tower(197, 260, mFileReader.readTowerInfo("water"), new Water()), Direction.Up);
-		mTowerManager.add(new Tower(197, 200, mFileReader.readTowerInfo("lightning"), new Lightning()), Direction.Up);
-		mTowerManager.add(new Tower(320, 200, mFileReader.readTowerInfo("cone"), new PineCone()), Direction.Up);
-		mTowerManager.add(new Tower(520, 320, mFileReader.readTowerInfo("needle"), new PineNeedle()), Direction.Up);
-		mTowerManager.add(new Tower(645, 320, mFileReader.readTowerInfo("walnut"), new Walnut()), Direction.Up);
-		mTowerManager.add(new Tower(770, 135, mFileReader.readTowerInfo("kernel"), new Kernel()), Direction.Up);
 		
 		mHud = new Hud();
 	}    

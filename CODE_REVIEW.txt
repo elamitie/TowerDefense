@@ -1,7 +1,3 @@
-Third Iteration:
-
-You should try to add more comments to your code. It would really make the code more readable.
-
-There is some kind of error popping up although I can't figure out how to recreate it.
-
-Your lightning looks really good.
+More comments would be nice to follow logic
+Very lengthy switch statments
+The HUD and Towers seem very coupled
