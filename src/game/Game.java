@@ -164,7 +164,7 @@ public class Game extends JPanel {
 	    }
 	}
 
-	public void spawnWave(long gameTime){
+	public void spawnWave(long gameTime) {
 		if(isSpawning){
 			mTimeBetween -= gameTime;
 			
