@@ -60,7 +60,7 @@ public class TowerWeaponTests {
 		tower.setAnimation(Direction.Up);
 		
 		assertEquals(200, kernel.getAttackRadius());
-		assertEquals(2, kernel.getRateOfFire());
+		assertEquals(1, kernel.getRateOfFire());
 		assertEquals(10, kernel.getDamage());
 		assertEquals(4, kernel.getProjectileRadius());
 	}

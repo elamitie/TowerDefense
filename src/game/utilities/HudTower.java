@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import game.Game;
 import game.entities.Direction;
 import game.entities.Tower;
+import game.levelSystems.Layer;
 import game.weapons.Kernel;
 import game.weapons.Lightning;
 import game.weapons.PineCone;
@@ -21,7 +22,6 @@ public class HudTower {
 	private boolean mIsSelected;
 	private int mX, mY;
 	private JSONReader mReader;
-	
 	
 	public HudTower(String name, int x, int y){
 		
@@ -74,26 +74,33 @@ public class HudTower {
 				mIsSelected = !mIsSelected;
 				
 				if(mIsSelected){
+					Layer.showMarkers = true;
 					Tower tower = new Tower(Mouse.getX() - mImage.getWidth() / 2, Mouse.getY() - mImage.getWidth() / 2, mReader.readTowerInfo(mName), getWeapon());
 					Game.instance().getHud().updateStats(tower);
-				}else{
+				}
+				else{
 					Game.instance().getHud().setDefaults();
 				}
 			}
 			else if(mIsSelected && Mouse.getY() < 450)
 			{
-				weapon = getWeapon();
-				
-				if(Game.instance().getMoney() >= weapon.getCost()){
-					Tower tower = new Tower(Mouse.getX() - mImage.getWidth() / 2, Mouse.getY() - mImage.getWidth() / 2, mReader.readTowerInfo(mName), weapon);
+					weapon = getWeapon();
+
+				if(Game.instance().getMoney() >= weapon.getCost()) {
+					
+					int x = (int)Util.snapToGrid((int)Mouse.getX(), 32);
+					int y = (int)Util.snapToGrid((int)Mouse.getY(), 32);
+					
+					Tower tower = new Tower(x, y, mReader.readTowerInfo(mName), weapon);
+					
 					Game.instance().getTowerManager().add(tower, Direction.Up);
 					Game.instance().setMoney(Game.instance().getMoney() - weapon.getCost());
 					Game.instance().getHud().updateStats(tower);
 					tower.setSelected(true);
 				}
 				mIsSelected = false;
+				Layer.showMarkers = false;
 			}
-
 		}
 		
 	}
