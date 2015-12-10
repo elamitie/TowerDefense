@@ -26,12 +26,7 @@ import game.utilities.JSONReader;
 import game.utilities.Keyboard;
 import game.utilities.Mouse;
 import game.utilities.Sound;
-import game.weapons.Kernel;
 import game.weapons.Lightning;
-import game.weapons.PineCone;
-import game.weapons.PineNeedle;
-import game.weapons.Walnut;
-import game.weapons.Water;
 
 @SuppressWarnings("serial")
 public class Game extends JPanel {
