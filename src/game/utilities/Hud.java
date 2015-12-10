@@ -10,6 +10,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import game.Game;
+import game.entities.Tower;
 
 public class Hud {
 
@@ -19,6 +20,13 @@ public class Hud {
 	private boolean mCanUpgrade;
 	private boolean mIsSellDown;
 	private boolean mIsUpgradeDown;
+	private String mKillData;
+	private String mSpeedData;
+	private String mCostData;
+	private String mRangeData;
+	private String mUpgradeData;
+	private String mSellData;
+	
 	
 	static final int TEXT_SIZE = 30;
 	
@@ -51,7 +59,25 @@ public class Hud {
 		mIsSellDown= false;
 		mIsUpgradeDown = false;
 		
+		mKillData = " ";
+		mSpeedData = " ";
+		mCostData = " ";
+		mRangeData = " ";
+		mUpgradeData = " ";
+		mSellData = " ";
+		
 		loadHud();
+	}
+	
+	public void updateStats(Tower tower)
+	{
+		//Set data to tower data
+		//mKillData;
+		//mSpeedData;
+		//mCostData;
+		//mRangeData;
+		//mUpgradeData;
+		//mSellData;
 	}
 	
 	public void draw(Graphics2D g2d){
@@ -62,10 +88,10 @@ public class Hud {
 		g2d.drawString(Integer.toString(Game.instance().getLives()), mHudPosX + 845, mHudPosY + 35);
 		g2d.drawString(Integer.toString(Game.instance().getMoney()), mHudPosX + 845, mHudPosY + 65);
 		g2d.drawImage(mHudTowerMenu, mHudPosX + 445, mHudPosY, null);
-		g2d.drawString("40", mHudPosX + 500, mHudPosY + 35);
-		g2d.drawString("40", mHudPosX + 630, mHudPosY + 35);
-		g2d.drawString("40", mHudPosX + 500, mHudPosY + 65);
-		g2d.drawString("40", mHudPosX + 630, mHudPosY + 65);
+		g2d.drawString(mKillData, mHudPosX + 500, mHudPosY + 35);
+		g2d.drawString(mSpeedData, mHudPosX + 630, mHudPosY + 35);
+		g2d.drawString(mRangeData, mHudPosX + 500, mHudPosY + 65);
+		g2d.drawString(mCostData, mHudPosX + 630, mHudPosY + 65);
 		
 		if(mCanUpgrade){
 			if(!mIsUpgradeDown)
@@ -73,7 +99,7 @@ public class Hud {
 			else
 				g2d.drawImage(mUpgradeButtonDown, mHudPosX + 710, mHudPosY + 10, null);
 			
-			g2d.drawString("150", mHudPosX + 745, mHudPosY + 35);
+			g2d.drawString(mUpgradeData, mHudPosX + 745, mHudPosY + 35);
 		}
 		else
 			g2d.drawImage(mUpgradeButtonDisabled, mHudPosX + 710, mHudPosY + 10, null);
@@ -84,7 +110,7 @@ public class Hud {
 			else
 				g2d.drawImage(mSellButtonDown, mHudPosX + 710, mHudPosY + 40, null);
 			
-			g2d.drawString("150", mHudPosX + 745, mHudPosY + 65);
+			g2d.drawString(mSellData, mHudPosX + 745, mHudPosY + 65);
 		}
 		else
 			g2d.drawImage(mSellButtonDisabled, mHudPosX + 710, mHudPosY + 40, null);
