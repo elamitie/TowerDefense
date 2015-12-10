@@ -245,4 +245,12 @@ public class Hud {
 			}
 		}
 	}
+	
+	public String getDamageData(){return mKillData;};
+	public String getSpeedData(){return mSpeedData;};
+	public String getCostData(){return mCostData;};
+	public String getRangeData(){return mRangeData;};
+	public String getUpgradeData(){return mUpgradeData;};
+	public String getSellData(){return mSellData;};
+	public Tower getTower(){return mTower;};
 }
