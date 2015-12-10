@@ -8,7 +8,7 @@ import game.Game;
 import game.graphics.Animation;
 import game.weapons.Weapon;
 
-public class Tower {
+public class Tower{
 
 	private int x;
 	private int y;
@@ -125,4 +125,5 @@ public class Tower {
 	public int getHalfWidth() { return getWidth() / 2; }
 	public int getHalfHeight() { return getHeight() / 2; }
 	public Animation getCurrentAnim() { return currentAnim; }
+
 }

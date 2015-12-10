@@ -6,6 +6,7 @@ import java.util.List;
 
 import game.utilities.Sound;
 import game.utilities.Waypoint;
+import game.Game;
 
 public class UnitManager {
 
@@ -56,12 +57,16 @@ public class UnitManager {
 			//Unit dead
 			if(unitList.get(i - 1).getCurrentHealth() <= 0){
 				mDeathNoise.playSound(false);
+				//Reward bounty
+				Game.instance().setMoney(Game.instance().getMoney() + unitList.get(i - 1).getBounty());
 				unitList.remove(i - 1);
 			}
 			//Unit reached end
 			else if(unitList.get(i - 1).getCurrentWaypoint() == null){
 				unitList.remove(i - 1);
 				mExitNoise.playSound(false);
+				//Remove Life
+				Game.instance().setLives(Game.instance().getLives() - 1);
 			}
 		}
 	}
@@ -75,7 +80,7 @@ public class UnitManager {
 	private void createWaypoints() {
 		//Linked list style waypoint system
 		waypoints = new ArrayList<Waypoint>();
-		waypoints.add(new Waypoint(150, Direction.Up));
+		waypoints.add(new Waypoint(150, Direction.Right));
 		waypoints.add(new Waypoint(150, Direction.Up));
 		waypoints.get(waypoints.size() - 2).setNextWaypoint(waypoints.get(waypoints.size()-1));
 		waypoints.add(new Waypoint(250, Direction.Right));

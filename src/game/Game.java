@@ -3,8 +3,12 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import game.entities.Direction;
@@ -14,6 +18,7 @@ import game.entities.Unit;
 import game.entities.UnitManager;
 import game.entities.WaveScroller;
 import game.levelSystems.LevelLayout;
+import game.utilities.Hud;
 import game.utilities.JSONReader;
 import game.utilities.Sound;
 import game.weapons.Kernel;
@@ -37,6 +42,10 @@ public class Game extends JPanel
     public static final int WALKING_START_POINT = 375;
     public static final int FLYING_START_POINT = 270;
     public static final int UNIT_COUNT = 7;
+    public static final int STARTING_MONEY = 100;
+    public static final int STARTING_LIVES = 0;
+    
+    
     private int mTimeBetweenSpawns = 500;
     private int mTimeBetweenGroups = 1000;
     private int mTimeBetween = 0;
@@ -47,6 +56,11 @@ public class Game extends JPanel
 	private int mWave;
 	private int mEnemiesSpawned;
 	private boolean isSpawning;
+	private int mMoney;
+	private int mLives;
+	private boolean mGameOver;
+	private BufferedImage mLoseScreen;
+	private Hud mHud;
 	
 	private WaveScroller mScroller;
 	private UnitManager mUnitManager;
@@ -86,11 +100,17 @@ public class Game extends JPanel
 	      gameThread.start();
 	}
 	
-	private void init()
-	{	  
+	private void init(){	  
 		mFileReader = new JSONReader();
 		mUnitManager = new UnitManager();
 		mTowerManager = new TowerManager();
+		mHud = new Hud();
+		
+		try {
+			mLoseScreen = ImageIO.read(new File("images/you-lose.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		mBackgroundSound = new Sound("music/music.wav");
 		mBackgroundSound.playSound(true);
@@ -99,19 +119,20 @@ public class Game extends JPanel
 		
 		mEnemiesSpawned = 0;
 		mWave = 1;
+		setMoney(STARTING_MONEY);
+		setLives(STARTING_LIVES);
 		
 		mIsRunning = true;
 		isSpawning = false;
+		mGameOver = false;
 	  }
 	
-	public boolean getIsRunning()
-	{
+	public boolean getIsRunning(){
 		return mIsRunning;
 	}
 	  
 	
-	private void loadContent()
-	{
+	private void loadContent(){
 		  mFileReader.loadFiles();
 		  
 		  mLevels = mFileReader.readLevelInfo();
@@ -127,17 +148,18 @@ public class Game extends JPanel
 	}    
 	  
 	  
-	public void update(long gameTime)
-	{
-	      mUnitManager.update(gameTime);
-	      mScroller.updateSpawner(gameTime, mWave);
-	      mTowerManager.update(gameTime);
-	      
-	      if(!isSpawning)
-	      {
-	    	  isSpawning = mScroller.startNewWave();
-	      }
-	      spawnWave(gameTime);
+	public void update(long gameTime){
+		if(!mGameOver){
+		      mUnitManager.update(gameTime);
+		      mScroller.updateSpawner(gameTime, mWave);
+		      mTowerManager.update(gameTime);
+		      
+		      if(!isSpawning)
+		      {
+		    	  isSpawning = mScroller.startNewWave();
+		      }
+		      spawnWave(gameTime);
+		}
 	}
 
 	public void spawnWave(long gameTime){
@@ -212,29 +234,31 @@ public class Game extends JPanel
 		mUnitManager.addUnit(unit);
 	}
 	
-	public void draw(Graphics2D g2d) 
-	{
+	public void draw(Graphics2D g2d) {
 		mLevels.get(0).draw(g2d);
 		mTowerManager.draw(g2d);
 		mUnitManager.draw(g2d);
 		mScroller.draw(g2d);
+		mHud.draw(g2d);
+		
+		if(mGameOver)
+		{
+			g2d.drawImage(mLoseScreen, 200, 50, null);
+		}
 	}
 	
 	@Override
-    public void paintComponent(Graphics g)
-    {
+    public void paintComponent(Graphics g){
         Graphics2D g2d = (Graphics2D)g;        
         super.paintComponent(g2d);        
         draw(g2d);
     }
 	
-	public void gameLoop()
-	{
+	public void gameLoop(){
 		long beginTime, timeTaken, timeLeft;
 		long lastTime = System.nanoTime();
 		
-		while(mIsRunning)
-		{
+		while(mIsRunning){
 			beginTime = System.nanoTime();
 			
 			mGameTime = (System.nanoTime() - lastTime) / MILISEC_IN_NANOSEC;
@@ -262,6 +286,31 @@ public class Game extends JPanel
 	
 	public TowerManager getTowerManager() {
 		return mTowerManager;
+	}
+
+	public int getMoney() {
+		return mMoney;
+	}
+
+	public void setMoney(int money) {
+		mMoney = money;
+		System.out.println("Current Money: " + mMoney);
+	}
+
+	public int getLives() {
+		return mLives;
+	}
+
+	public void setLives(int lives) {
+		mLives = lives;
+		System.out.println("Current Lives: " + mLives);
+		//Lose game
+		if(mLives <= 0)
+		{
+			System.out.println("Game Over!");
+			mGameOver = true;
+		}
+		
 	}
 
 }

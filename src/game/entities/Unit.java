@@ -12,6 +12,8 @@ public class Unit
 	static final int HEALTH_BAR_WIDTH = 40;
 	static final int HEALTH_BAR_HEIGHT = 7;
 	static final int HEALTH_Y_OFFSET = -10;
+	static final int BOUNTY = 10;
+	
 	
 	private ArrayList<Animation> mAnimations;
 	private Animation mCurrentAnimation;
@@ -27,6 +29,7 @@ public class Unit
 	private long mSlowTime = 0;
 	private float mSpeed = 2;
 	private boolean mCanFly;
+	private int mBounty;
 	
 	public Unit(int locX, int locY, ArrayList<Animation> animation)
 	{
@@ -39,7 +42,7 @@ public class Unit
 		
 		mMaxHealth = 100;
 		mCurrentHealth = mMaxHealth;
-		
+		mBounty = BOUNTY;
 	}
 	
 	public void setAnimation(Direction direction)
@@ -83,6 +86,11 @@ public class Unit
 	public int getHeight()
 	{
 		return mHeight;
+	}
+	
+	public int getBounty()
+	{
+		return mBounty;
 	}
 	
 	public void update(long gametime){

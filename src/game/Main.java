@@ -9,7 +9,7 @@ public class Main
 		 
 		 window.setTitle("Tower Defense");
 	     
-		 window.setSize(965, 540);
+		 window.setSize(965, 620);
 	     // Puts frame to center of the screen.
 		 window.setLocationRelativeTo(null);
 	     // So that frame cannot be resized by the user.
