@@ -95,16 +95,16 @@ public class Tower{
 		
 		if(weapon.fireTimer > 0) {
 			weapon.fireTimer -= gametime;
-			
-			if(weapon.fireTimer <= 0) {
-				//weapon.fire(unit);
-				weapon.reset();
-			}
 		}
+		
+		if(weapon.fireTimer <= 0 && targets.size() > 0) {
+			weapon.fire(targets.get(0));
+			weapon.reset();
+		}
+		
 	}
 	
 	private void addTargets(long gametime) {
-		System.out.println(targets.size());
 		for(Unit unit : Game.instance().getUnitManager().getUnitList()) {
 			if(!targets.contains(unit) && distanceToUnit(unit) <= weapon.getAttackRadius()) {
 				targets.add(unit);
