@@ -174,5 +174,7 @@ public class Tower{
 	public Weapon getWeapon() { return this.weapon; }
 	
 	public void setParent(TowerManager parent) { this.parent = parent; }
+	
+	public void setSelected(boolean selected){ this.selected = selected;}
 
 }

@@ -70,42 +70,59 @@ public class HudTower {
 		Weapon weapon = null;
 		
 		if (Mouse.leftPressed) {
-			if(intersects)
+			if(intersects){
 				mIsSelected = !mIsSelected;
+				
+				if(mIsSelected){
+					Tower tower = new Tower(Mouse.getX() - mImage.getWidth() / 2, Mouse.getY() - mImage.getWidth() / 2, mReader.readTowerInfo(mName), getWeapon());
+					Game.instance().getHud().updateStats(tower);
+				}else{
+					Game.instance().getHud().setDefaults();
+				}
+			}
 			else if(mIsSelected && Mouse.getY() < 450)
 			{
-				switch(mName){
-				case "water":
-					weapon = new Water();
-					break;
-				case "kernel":
-					weapon = new Kernel();
-					break;
-				case "cone":
-					weapon = new PineCone();
-					break;
-				case "lightning":
-					weapon = new Lightning();
-					break;
-				case "needle":
-					weapon = new PineNeedle();
-					break;
-				case "walnut":
-					weapon = new Walnut();
-					break;
-					
-				}
+				weapon = getWeapon();
 				
 				if(Game.instance().getMoney() >= weapon.getCost()){
-					Game.instance().getTowerManager().add(new Tower(Mouse.getX() - mImage.getWidth() / 2, Mouse.getY() - mImage.getWidth() / 2, mReader.readTowerInfo(mName), weapon), Direction.Up);
+					Tower tower = new Tower(Mouse.getX() - mImage.getWidth() / 2, Mouse.getY() - mImage.getWidth() / 2, mReader.readTowerInfo(mName), weapon);
+					Game.instance().getTowerManager().add(tower, Direction.Up);
 					Game.instance().setMoney(Game.instance().getMoney() - weapon.getCost());
+					Game.instance().getHud().updateStats(tower);
+					tower.setSelected(true);
 				}
 				mIsSelected = false;
 			}
 
 		}
 		
+	}
+	
+	private Weapon getWeapon(){
+		Weapon weapon = new Kernel();
 		
+		switch(mName){
+			case "water":
+				weapon = new Water();
+				break;
+			case "kernel":
+				weapon = new Kernel();
+				break;
+			case "cone":
+				weapon = new PineCone();
+				break;
+			case "lightning":
+				weapon = new Lightning();
+				break;
+			case "needle":
+				weapon = new PineNeedle();
+				break;
+			case "walnut":
+				weapon = new Walnut();
+				break;	
+		}
+		
+		return weapon;
 	}
 	
 }
