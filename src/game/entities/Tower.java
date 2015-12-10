@@ -83,6 +83,10 @@ public class Tower{
 			// Deselect the rest of the towers
 			deselectOthers();
 		}
+		else if (Mouse.leftPressed && !intersects) {
+			// Deselect if clicked off of the tower
+			selected = false;
+		}
 		
 		currentAnim.update(gametime);
 		weapon.update(gametime);
