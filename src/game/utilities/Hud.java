@@ -82,13 +82,14 @@ public class Hud {
 		
 		if (tower.getWeapon() instanceof ProjectileBasedWeapon) {
 			ProjectileBasedWeapon pbw = (ProjectileBasedWeapon)tower.getWeapon();
-			mKillData = String.valueOf(pbw.getDamage());
 			mSpeedData = String.valueOf(pbw.getRateOfFire());
 			mRangeData = String.valueOf(pbw.getAttackRadius());
-		}
+		} 
 		else {
-			
+			mSpeedData = " ";
+			mRangeData = " ";
 		}
+		mKillData = String.valueOf(tower.getWeapon().getDamage());
 	}
 	
 	public void draw(Graphics2D g2d){
